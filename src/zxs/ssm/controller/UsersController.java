@@ -37,12 +37,13 @@ public class UsersController {
 	@Autowired
 	HttpSession session;
 	
-
+	//出现错误，返回错误页面
 	@RequestMapping("error")
 	public String error() {
 		return "user/error";
 	}
 	
+	//测试用例2015-12-31
 	@RequestMapping("/queryUsers")
 	public ModelAndView queryItems(HttpServletRequest request) throws Exception{
 		Users record = new Users();
@@ -56,6 +57,7 @@ public class UsersController {
 		return modelAndView;
 	}
 	
+	//登录	
 	@RequestMapping(value = "/main")
 	public String main(
 			Model model,Locale locale ) {
@@ -116,4 +118,16 @@ public class UsersController {
 		return "jsp/success";
 	}
 		
+	// 退出系统
+	@RequestMapping(value = "/logout")
+	public String logout(Locale locale, Model model, HttpServletRequest request) {
+		//清除登录session
+		if(null != this.session.getAttribute("baseUser")){
+			Users user = (Users) this.session.getAttribute("baseUser");
+			System.out.println("用户：" + user.getUserName()+"，退出系统。");
+			session.removeAttribute("baseUser");
+		}
+		return "user/login";
+	}
+	
 }
