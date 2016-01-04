@@ -22,4 +22,6 @@
 	
 	<bean id="functionLimitService" class="zxs.ssm.service.impl.FunctionLimitServiceImpl"/>
 	
+	<bean id="departmentService" class="zxs.ssm.service.impl.DepartmentServiceImpl"/>
+	
 </beans>
