@@ -115,7 +115,7 @@ public class UsersController {
 	
 	@RequestMapping(value = "/test")
 	public String test(){
-		return "jsp/success";
+		return "systemManage/userManage";
 	}
 		
 	// 退出系统
