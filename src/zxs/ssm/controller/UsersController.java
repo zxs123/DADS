@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,9 +21,11 @@ import zxs.ssm.po.FunctionLimitExample;
 import zxs.ssm.po.FunctionLimitExample.Criteria;
 import zxs.ssm.po.FunctionModule;
 import zxs.ssm.po.Users;
+import zxs.ssm.services.DepartmentService;
 import zxs.ssm.services.FunctionLimitService;
 import zxs.ssm.services.FunctionModuleService;
 import zxs.ssm.services.UsersService;
+import zxs.ssm.util.DataGridModel;
 
 @Controller
 @RequestMapping("/user")
@@ -34,6 +37,8 @@ public class UsersController {
 	private FunctionModuleService fmService;
 	@Autowired
 	private FunctionLimitService flService;
+	@Autowired
+	private DepartmentService depService;
 	@Autowired
 	HttpSession session;
 	
@@ -115,7 +120,8 @@ public class UsersController {
 	
 	@RequestMapping(value = "/test")
 	public String test(){
-		return "systemManage/userManage";
+		//return "systemManage/userManage";
+		return "jsp/success";
 	}
 		
 	// 退出系统
@@ -130,4 +136,57 @@ public class UsersController {
 		return "user/login";
 	}
 	
+	
+	//2016-1-5测试代码
+	@RequestMapping(value="/list",method=RequestMethod.GET)   
+	public String list(Model model) throws Exception {
+		//model.addAttribute("deptList", deptService.getDeptList());
+		model.addAttribute("deptList", depService.selectDepNameList());
+		return "systemManage/list";
+	}
+
+	@RequestMapping(value="/queryList",method=RequestMethod.POST)
+	@ResponseBody         
+	public Map<String, Object> queryList(DataGridModel dgm,Users user) throws Exception{
+		//spring太给力了，可以自动装配两个对象  会自动的装返回的Map转换成JSON对象
+	    //return userService.getPageListByExemple(dgm, user); 
+	    return usersService.getPageList(dgm, user);
+	}
+	
+	@RequestMapping(value="/popWindow",method=RequestMethod.GET)
+	public String popWindow() throws Exception{
+		return "systemManage/popWindow";
+	}
+	
+	@RequestMapping(value="/addOrUpdate",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> addOrUpdate(Users user) throws Exception{
+		//spring会利用jackson自动将返回值封装成JSON对象，比struts2方便了很多
+		Map<String, String> map = new HashMap<String, String>();
+		try {
+			usersService.updateByExample(user, null);
+			map.put("mes", "操作成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("mes", "操作失败");
+			throw e;
+		}
+		return map; 
+	}
+	
+	@RequestMapping(value="/delete",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> delete(@RequestParam("userId") List<String> userId)throws Exception{
+		//spring mvc 还可以将参数绑定为list类型
+		Map<String, String> map = new HashMap<String, String>();
+		try {
+			usersService.deleteUsers(userId);
+			map.put("mes", "删除成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("mes", "删除失败");
+			throw e;
+		}
+		return map;//重定向
+	}
 }

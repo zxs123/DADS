@@ -228,6 +228,6 @@
   
   <!-- 自己添加的方法 -->
   <select id="selectDepNameList" resultType="java.lang.String">
-    select Dep_name from department order by Dep_name ASC
+    select DISTINCT Dep_name from department order by Dep_name ASC
   </select>
 </mapper>

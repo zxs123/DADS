@@ -43,7 +43,11 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-orm-3.2.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-test-3.2.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-tx-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-web-3.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-web-3.2.0.RELEASE.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-webmvc-3.2.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jackson-core-asl-1.9.13.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jackson-mapper-asl-1.9.13.jar"/>
@@ -51,5 +55,6 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/json_simple-1.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/json-lib-2.4-jdk15.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/et-mvc-1.0.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/com.springsource.org.apache.commons.lang-2.1.0.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

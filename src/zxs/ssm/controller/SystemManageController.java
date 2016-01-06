@@ -29,4 +29,9 @@ public class SystemManageController {
 		return new JsonView(result);
 	}
 	
+	@RequestMapping("userManage")
+	public String test() throws Exception{
+		return "systemManage/list";
+	}
+	
 }
