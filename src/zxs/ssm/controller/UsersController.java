@@ -189,4 +189,9 @@ public class UsersController {
 		}
 		return map;//重定向
 	}
+	
+	@RequestMapping(value="/test1")
+	public String test1() throws Exception{
+		return "jsp/login";
+	}
 }

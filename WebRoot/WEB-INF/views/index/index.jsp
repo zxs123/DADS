@@ -18,15 +18,15 @@
 <meta name="Description" content="" />
 <title>统计软件首页</title>
 <link rel="stylesheet" type="text/css"
-	href="<%=basePath%>jquery-easyui-1.3.6/themes/gray/easyui.css" />
+	href="<%=basePath%>jquery-easyui-1.4.4/themes/gray/easyui.css" />
 <link rel="stylesheet" type="text/css"
-	href="<%=basePath%>jquery-easyui-1.3.6/themes/icon.css" />
+	href="<%=basePath%>jquery-easyui-1.4.4/themes/icon.css" />
 <script type="text/javascript"
-	src="<%=basePath%>jquery-easyui-1.3.6/jquery-1.7.1.min.js"></script>
+	src="<%=basePath%>jquery-easyui-1.4.4/jquery.min.js"></script>
 <script type="text/javascript"
-	src="<%=basePath%>jquery-easyui-1.3.6/jquery.easyui.min.js"></script>
+	src="<%=basePath%>jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
 <script type="text/javascript"
-	src="<%=basePath%>jquery-easyui-1.3.6/locale/easyui-lang-zh_CN.js"></script>
+	src="<%=basePath%>jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/base-loading.js"></script>
 <link type="text/css" rel="stylesheet"
 	href="<%=basePath%>css/index/top.css" />

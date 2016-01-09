@@ -8,25 +8,23 @@
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
+<!DOCTYPE html>
 <html>
-
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="Keywords" content="" />
 <meta name="Description" content="" />
 <title>统计软件首页</title>
 <link rel="stylesheet" type="text/css"
-	href="<%=basePath%>jquery-easyui-1.3.6/themes/gray/easyui.css" />
+	href="<%=basePath%>jquery-easyui-1.4.4/themes/gray/easyui.css" />
 <link rel="stylesheet" type="text/css"
-	href="<%=basePath%>jquery-easyui-1.3.6/themes/icon.css" />
+	href="<%=basePath%>jquery-easyui-1.4.4/themes/icon.css" />
 <script type="text/javascript"
-	src="<%=basePath%>jquery-easyui-1.3.6/jquery-1.7.1.min.js"></script>
+	src="<%=basePath%>jquery-easyui-1.4.4/jquery.min.js"></script>
 <script type="text/javascript"
-	src="<%=basePath%>jquery-easyui-1.3.6/jquery.easyui.min.js"></script>
+	src="<%=basePath%>jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
 <script type="text/javascript"
-	src="<%=basePath%>jquery-easyui-1.3.6/locale/easyui-lang-zh_CN.js"></script>
+	src="<%=basePath%>jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/base-loading.js"></script>
     <script type="text/javascript">
     jQuery(function($){
@@ -49,18 +47,29 @@
 			rownumbers:true, //显示行号
 			columns:[[
 				{field:'ck',checkbox:true,width:2}, //显示复选框
-				{field:'userName',title:'名字',width:20,sortable:true,
+				{field:'userName',title:'姓名',width:20,sortable:true,
 					formatter:function(value,row,index){return row.userName;} //需要formatter一下才能显示正确的数据
 				},
-				{field:'userSex',title:'性别',width:20,sortable:true,
-					formatter:function(value,row,index){return row.userSex;}
+				{field:'userId',title:'登录账号',width:20,sortable:true,
+					formatter:function(value,row,index){return row.userId;}
 				},
-				{field:'userTel',title:'电话',width:30,sortable:true,
-					formatter:function(value,row,index){return row.userTel;}
-				},
-				{field:'user.userDep',title:'部门',width:30,sortable:true,
+				{field:'user.userDep',title:'所属部门',width:30,sortable:true,
 					formatter:function(value,row,index){
 						return row.userDep;  //该列的值是deptId，显示的是deptName
+					}
+				},
+				{field:'userPosition',title:'用户角色',width:20,sortable:true,
+					formatter:function(value,row,index){return row.userPosition;}
+				},
+				{field:'userTel',title:'办公电话',width:30,sortable:true,
+					formatter:function(value,row,index){return row.userTel;}
+				},
+				{field:'userCellphone',title:'手机',width:30,sortable:true,
+					formatter:function(value,row,index){return row.userCellphone;}
+				},
+				{field:'user.userEmail',title:'电子邮箱',width:30,sortable:true,
+					formatter:function(value,row,index){
+						return row.userEmail;  //该列的值是deptId，显示的是deptName
 					}
 				} 
 			]],
@@ -182,17 +191,15 @@
   </head>
   
   <body>
-    <form id="queryForm" style="margin:10;text-align: center;">
+    <form id="queryForm" style="margin:8;text-align: center;">
 		<table width="100%">
 			<tr>
-			<td>名字：<input name="name" style="width: 200"></td>
-			<td>年龄：<input class="easyui-numberspinner" name="age" min="1" max="120" increment="1" style="width:200px;"></input></td>
-			<td align="center"><a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search">清空</a></td>
-			</tr>
-			<tr>
-			<td>生日：<input name="birthday" style="width: 200" class="Wdate" onClick="WdatePicker()"></td>
-			<td>部门：<input id="deptCombo" name="deptId" style="width: 200"></td>
+			<td>所属部门：<input id="deptCombo" name="userDep" style="width: 300"></td>
+			<td>名字：<input name="userName" style="width: 200"></td>
+			<td>登录账号：<input name="userId" style="width: 200"></td>
+			<td>用户状态：<input name="userPosition" style="width: 200"></td>
 			<td align="center"><a href="#" onclick="searchUser();" class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
+			<td align="center"><a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search">清空</a></td>
 			</tr>
 		</table>
 	</form>

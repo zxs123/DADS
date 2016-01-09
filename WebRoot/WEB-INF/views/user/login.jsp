@@ -1,25 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="true" %>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+
 <%
 	String path = request.getContextPath();
-	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="Keywords" content="" />
-<meta name="Description" content="" />
-<title>数据分析处理与决策支持系统</title>
-<link rel="stylesheet" type="text/css" href="<%=basePath %>css/login/login.css" />
+<base href="<%=basePath%>">
 
-<script type="text/javascript" src="<%=basePath %>js/jquery-1.4.4.min.js"></script>
-<script type="text/javascript" src="<%=basePath %>js/base-loading.js"></script>
-<link rel="stylesheet" type="text/css" href="<%=basePath%>js/loadmask/jquery.loadmask.css" />
-<script type="text/javascript" src="<%=basePath %>js/loadmask/jquery.loadmask.js"></script>	
+<title>中南电力设计</title>
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<link href="<%=basePath%>css/windows.css" rel="stylesheet" type="text/css" />
+<link href="<%=basePath%>css/frameStyle.css" rel="stylesheet" type="text/css" />
+<script language="javascript" src="<%=basePath%>jquery-easyui-1.4.4/jquery.min.js"></script>
 <script type="text/javascript">
 $(function() {  
 	// 重定向时跳出iframe
@@ -62,27 +60,113 @@ $(function() {
 }); 
 </script>
 </head>
-<body  class="PageBody"  >
 
-    <div id="CenterAreaBg">
-        <div id="CenterArea">
-            <div id="LogoImg"><img border="0" src="<%=basePath %>images/login/logo.png" /></div>
-            <div id="LoginInfo">
-                <table border="0" cellspacing="0" cellpadding="0" width=100%>
-                    <tr>
-                        <td width=45 class="Subject"><img border="0" src="<%=basePath %>images/login/userId.gif" /></td>
-                        <td><input size="20"  id="username" class="TextField" tabindex="1" type="text" name="username" /></td>
-                        <td rowspan="2" style="padding-left:10px;"><input type="image" tabindex="3" id="login_btn" src="<%=basePath %>images/login/userLogin_button.gif"/></td>
-                    </tr>
-                    <tr>
-                        <td class="Subject"><img border="0" src="<%=basePath %>images/login/password.gif" /></td>
-                        <td><input size="20" class="TextField" type="password" tabindex="2" id="userpass"  name="password" /></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
+<body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0"
+	marginheight="0">
+	<form name="login" action="default/loginAction" method="post">
+		<table width="100%" border="0" height="100%" cellpadding="0"
+			cellspacing="0">
+			<tr>
+				<td height="599" background="images/old_login/login_01.gif">&nbsp;</td>
+				<td width="1024">
+					<!-- ImageReady Slices (1_120531001852_1.psd) -->
+					<table id="__01" width="1024" height="100%" border="0"
+						cellpadding="0" cellspacing="0">
+						<tr>
+							<td rowspan="11"><img src="images/old_login/1_120531001852_1_01.gif"
+								width="272" height="580" alt=""></td>
+							<td colspan="6"><img src="images/old_login/login_02.gif" width="495"
+								height="60" alt=""></td>
+							<td rowspan="11"><img src="images/old_login/login_03.gif" width="257"
+								height="580" alt=""></td>
+						</tr>
+						<tr>
+							<td colspan="2"><img src="images/old_login/login_04.gif" width="196"
+								height="58" alt=""></td>
+							<td colspan="4"><img src="images/old_login/login_05.gif" width="299"
+								height="58" alt=""></td>
+						</tr>
+						<tr>
+							<td colspan="6"><img src="images/old_login/login_06.gif" width="495"
+								height="46" alt=""></td>
+						</tr>
+						<tr>
+							<td colspan="6"><img src="images/old_login/login_07.gif" width="495"
+								height="58" alt=""></td>
+						</tr>
+						<tr>
+							<td><img src="images/old_login/login_08.gif" width="192" height="29"
+								alt=""></td>
+							<td colspan="4" width="151" height="29"><input id="username" name="username"
+								type="text"
+								style="width: 150px; height: 26px; border: 0px; border-style: none; line-height: 26px; background-image: url(images/old_login/login_09.gif)" /></td>
+							<td><img src="images/old_login/login_10.gif" width="152" height="29"
+								alt=""></td>
+						</tr>
+						<tr>
+							<td colspan="6"><img src="images/old_login/login_11.gif" width="495"
+								height="22" alt=""></td>
+						</tr>
+						<tr>
+							<td><img src="images/old_login/login_12.gif" width="192" height="29"
+								alt=""></td>
+							<td colspan="4" background="images/old_login/login_13.gif" width="151"
+								height="29"><input id="userpass"  name="password" type="password"
+								style="width: 150px; height: 26px; vertical-align: middle; line-height: 26px; border: 0px; border-style: none; background-image: url(images/old_login/login_13.gif)" /></td>
+							<td><img src="images/old_login/login_14.gif" width="152" height="29"
+								alt=""></td>
+						</tr>
+						<tr>
+							<td colspan="6"><img src="images/old_login/login_15.gif" width="495"
+								height="18" alt=""></td>
+						</tr>
+						<tr>
+							<td colspan="3"><img src="images/old_login/1_120531001852_1_17.gif"
+								width="280" height="24" alt=""></td>
+							<td><input id="login_btn" type="button" style="width: 54px; border: 0px; cursor: pointer; height: 24px; background-image: url(images/old_login/login_17.gif)" />
+							</td>
+							<td colspan="2"><img src="images/old_login/1_120531001852_1_18.gif"
+								width="161" height="24" alt=""></td>
+						</tr>
+						<tr>
+							<td colspan="6"><img src="images/old_login/login_19.gif" width="495"
+								height="107" alt=""></td>
+						</tr>
+						<tr>
+							<td colspan="6"><img src="images/old_login/login_20.gif" width="495"
+								height="129" alt=""></td>
+						</tr>
+						<tr>
+							<td colspan="8" style="background-color: #f5f5f5; height: 19px;">&nbsp;
+							</td>
+						</tr>
+						<tr style="background-color: #f5f5f5;">
+							<td style="background-color: #f5f5f5;" width="272" height="1">
+							</td>
+							<td style="background-color: #f5f5f5;" width="192" height="1">
+							</td>
+							<td style="background-color: #f5f5f5;" width="4" height="1">
+							</td>
+							<td style="background-color: #f5f5f5;" width="84" height="1">
+							</td>
+							<td style="background-color: #f5f5f5;" width="54" height="1">
+							</td>
+							<td style="background-color: #f5f5f5;" width="9" height="1">
+							</td>
+							<td style="background-color: #f5f5f5;" width="152" height="1">
+							</td>
+							<td style="background-color: #f5f5f5;" width="257" height="1">
+							</td>
+						</tr>
+					</table> <!-- End ImageReady Slices -->
+				</td>
+				<td background="images/old_login/login_01.gif">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="3" style="background-color: #f5f5f5;">&nbsp;</td>
+			</tr>
+		</table>
+	</form>
 
 </body>
-
 </html>
