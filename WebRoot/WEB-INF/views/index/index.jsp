@@ -60,7 +60,7 @@
 					<div id="Head1Right_UserName">
 						<img border="0" width="13" height="14"
 							src="<%=basePath%>images/index/top/user.gif" /> 您好，<b>${baseUser.userName}</b>
-						&nbsp; <a style="color: #b3e1ff"
+						&nbsp; <a style="color: #0082DC"
 							href="<%=basePath%>user/logout.action" /><b>安全退出</b></a>
 					</div>
 				</div>

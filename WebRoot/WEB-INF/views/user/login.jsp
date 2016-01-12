@@ -1,4 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session="true" %>
 
 <%
 	String path = request.getContextPath();
@@ -17,7 +20,10 @@
 <meta http-equiv="expires" content="0">
 <link href="<%=basePath%>css/windows.css" rel="stylesheet" type="text/css" />
 <link href="<%=basePath%>css/frameStyle.css" rel="stylesheet" type="text/css" />
-<script language="javascript" src="<%=basePath%>jquery-easyui-1.4.4/jquery.min.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/base-loading.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=basePath%>js/loadmask/jquery.loadmask.css" />
+<script type="text/javascript" src="<%=basePath%>js/loadmask/jquery.loadmask.js"></script>	
 <script type="text/javascript">
 $(function() {  
 	// 重定向时跳出iframe
@@ -38,7 +44,7 @@ $(function() {
 		  }  
 	
   $("#login_btn").click(function(){ 
-	  $("body").mask("页面加载中，请等待...");
+	 $("body").mask("页面加载中，请等待...");
       $.post("<%=basePath %>user/checklogin.action",
               {username:  $("#username").val(),
      	 	  userpass:  $("#userpass").val()
@@ -63,7 +69,7 @@ $(function() {
 
 <body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0"
 	marginheight="0">
-	<form name="login" action="default/loginAction" method="post">
+	<form name="login" action="login()" method="post">
 		<table width="100%" border="0" height="100%" cellpadding="0"
 			cellspacing="0">
 			<tr>
@@ -123,7 +129,7 @@ $(function() {
 						<tr>
 							<td colspan="3"><img src="images/old_login/1_120531001852_1_17.gif"
 								width="280" height="24" alt=""></td>
-							<td><input id="login_btn" type="button" style="width: 54px; border: 0px; cursor: pointer; height: 24px; background-image: url(images/old_login/login_17.gif)" />
+							<td><input id="login_btn" type="button" style="width: 54px; border: 0px; cursor: pointer; height: 24px; background-image: url(images/old_login/login_17.gif)"/>
 							</td>
 							<td colspan="2"><img src="images/old_login/1_120531001852_1_18.gif"
 								width="161" height="24" alt=""></td>
