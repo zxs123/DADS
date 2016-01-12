@@ -37,7 +37,7 @@
 			fitColumns: true, //自动调整各列，用了这个属性，下面各列的宽度值就只是一个比例。
 			striped: true, //奇偶行颜色不同
 			collapsible:true,//可折叠
-			url:"<%=basePath%>user/queryList.action", //数据来源
+			url:"<%=basePath%>systemManage/queryList.action", //数据来源
 			sortName: 'user.userName', //排序的列
 			sortOrder: 'desc', //倒序
 			remoteSort: true, //服务器端排序
@@ -53,13 +53,13 @@
 				{field:'userId',title:'登录账号',width:20,sortable:true,
 					formatter:function(value,row,index){return row.userId;}
 				},
-				{field:'user.userDep',title:'所属部门',width:30,sortable:true,
+				{field:'depName',title:'所属部门',width:30,sortable:true,
 					formatter:function(value,row,index){
-						return row.userDep;  //该列的值是deptId，显示的是deptName
+						return row.depName;  //该列的值是deptId，显示的是deptName
 					}
 				},
-				{field:'userPosition',title:'用户角色',width:20,sortable:true,
-					formatter:function(value,row,index){return row.userPosition;}
+				{field:'srName',title:'用户角色',width:20,sortable:true,
+					formatter:function(value,row,index){return row.srName;}
 				},
 				{field:'userTel',title:'办公电话',width:30,sortable:true,
 					formatter:function(value,row,index){return row.userTel;}
@@ -67,7 +67,7 @@
 				{field:'userCellphone',title:'手机',width:30,sortable:true,
 					formatter:function(value,row,index){return row.userCellphone;}
 				},
-				{field:'user.userEmail',title:'电子邮箱',width:30,sortable:true,
+				{field:'userEmail',title:'电子邮箱',width:30,sortable:true,
 					formatter:function(value,row,index){
 						return row.userEmail;  //该列的值是deptId，显示的是deptName
 					}
@@ -197,7 +197,12 @@
 			<td>所属部门：<input id="deptCombo" name="userDep" style="width: 300"></td>
 			<td>名字：<input name="userName" style="width: 200"></td>
 			<td>登录账号：<input name="userId" style="width: 200"></td>
-			<td>用户状态：<input name="userPosition" style="width: 200"></td>
+			<td>用户状态：<select name="userRname" style="width: 200">
+					<option value="kongbai"></option>
+   					 <option value=1>已启用</option>
+   					 <option value=0>未启用</option>
+					</select>
+			</td>
 			<td align="center"><a href="#" onclick="searchUser();" class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
 			<td align="center"><a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search">清空</a></td>
 			</tr>

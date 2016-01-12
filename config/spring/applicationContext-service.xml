@@ -24,4 +24,6 @@
 	
 	<bean id="depService" class="zxs.ssm.service.impl.DepartmentServiceImpl"/>
 	
+	<bean id="umService" class="zxs.ssm.service.impl.UsersManageServiceImpl"/>
+	
 </beans>

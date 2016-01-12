@@ -105,9 +105,11 @@ public class UsersController {
 			record.setUserId(loginName);
 			record.setUserPassword(password);
 			Users user = usersService.selectByIdAndPass(record);
-			if (user != null) {
+			if (user != null && "1".equals(user.getUserRname())) {
 				session.setAttribute("baseUser", user);
 				ajaxResult.put("success", user.getUserName());
+			} else if(user != null && "0".equals(user.getUserRname())) {
+				ajaxResult.put("err", "该用户未启用，请联系管理员！");
 			} else {
 				ajaxResult.put("err", "用户名或密码错！");
 			}
@@ -145,13 +147,14 @@ public class UsersController {
 		return "systemManage/list";
 	}
 
-	@RequestMapping(value="/queryList",method=RequestMethod.POST)
+	/*2016-01-12此部分代码移到UsersManageController中 
+	 * @RequestMapping(value="/queryList",method=RequestMethod.POST)
 	@ResponseBody         
 	public Map<String, Object> queryList(DataGridModel dgm,Users user) throws Exception{
 		//spring太给力了，可以自动装配两个对象  会自动的装返回的Map转换成JSON对象
 	    //return userService.getPageListByExemple(dgm, user); 
 	    return usersService.getPageList(dgm, user);
-	}
+	}*/
 	
 	@RequestMapping(value="/popWindow",method=RequestMethod.GET)
 	public String popWindow() throws Exception{

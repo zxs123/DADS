@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import zxs.ssm.mapper.UsersMapper;
-import zxs.ssm.po.UserExample;
 import zxs.ssm.po.Users;
 import zxs.ssm.po.UsersExample;
 import zxs.ssm.po.UsersExample.Criteria;
