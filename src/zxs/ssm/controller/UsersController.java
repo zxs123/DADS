@@ -154,12 +154,14 @@ public class UsersController {
 		//spring太给力了，可以自动装配两个对象  会自动的装返回的Map转换成JSON对象
 	    //return userService.getPageListByExemple(dgm, user); 
 	    return usersService.getPageList(dgm, user);
-	}*/
+	}
 	
 	@RequestMapping(value="/popWindow",method=RequestMethod.GET)
 	public String popWindow() throws Exception{
 		return "systemManage/popWindow";
 	}
+	
+	*/
 	
 	@RequestMapping(value="/addOrUpdate",method=RequestMethod.POST)
 	@ResponseBody

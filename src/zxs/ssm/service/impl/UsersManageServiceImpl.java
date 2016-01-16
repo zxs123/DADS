@@ -23,7 +23,6 @@ public class UsersManageServiceImpl implements UsersManageService{
 	@Override
 	public Map<String, Object> getPageList(DataGridModel dgm, Users user) throws Exception {
 		Map<String, Object> result = new HashMap<String, Object>(2);
-		System.out.println(user.getUserRname()+"*********************");
 		List<UsersManage> list = null;
 		if (user != null && !("".equals(user))) {
 			UsersManageExample umExample = new UsersManageExample();

@@ -12,26 +12,24 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="Keywords" content="" />
-<meta name="Description" content="" />
-<title>统计软件首页</title>
+<title>用户管理</title>
 <link rel="stylesheet" type="text/css"
-	href="<%=basePath%>jquery-easyui-1.4.4/themes/gray/easyui.css" />
+	href="../jquery-easyui-1.4.4/themes/gray/easyui.css" />
 <link rel="stylesheet" type="text/css"
-	href="<%=basePath%>jquery-easyui-1.4.4/themes/icon.css" />
+	href="../jquery-easyui-1.4.4/themes/icon.css" />
 <script type="text/javascript"
-	src="<%=basePath%>jquery-easyui-1.4.4/jquery.min.js"></script>
+	src="../jquery-easyui-1.4.4/jquery.min.js"></script>
 <script type="text/javascript"
-	src="<%=basePath%>jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
+	src="../jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
 <script type="text/javascript"
-	src="<%=basePath%>jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript" src="<%=basePath%>js/base-loading.js"></script>
+	src="../jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../js/base-loading.js"></script>
     <script type="text/javascript">
     jQuery(function($){
 		$('#userTable').datagrid({
 			title:'用户列表', //标题
 			method:'post',
-			iconCls:'icon-edit', //图标
+			iconCls:'icon-user', //图标
 			singleSelect:false, //多选
 			//height:360, //高度
 			fitColumns: true, //自动调整各列，用了这个属性，下面各列的宽度值就只是一个比例。
@@ -91,6 +89,12 @@
 				handler:function(){
 					deleterow();
 				}
+			},'-',{
+				text:'初始化密码',
+				iconCls:'icon-reset',
+				handler:function(){
+					deleterow();
+				}
 			},'-'],
 			onLoadSuccess:function(){
 				$('#userTable').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
@@ -116,16 +120,17 @@
 	});
     //新增
     function addrow(){
-    	showWindow({
+    	$('#w').window('open');
+    	<%-- showWindow({
   			title:'增加用户信息',
-  			href:'<%=basePath%>user/popWindow.action',
+  			href:'<%=basePath%>systemManage/popWindow.action',
   			width:300,
   			height:250,
   			onLoad: function(){
   				$('#userForm').form('clear');
   			}
   			
-  		});
+  		}); --%>
 	}
   //更新
     function updaterow(){
@@ -210,6 +215,20 @@
 	</form>
 	<div style="padding:10" id="tabdiv">
 		<table id="userTable"></table>
+	</div>
+	<div id="w" class="easyui-window" title="用户添加" data-options="iconCls:'icon-save',closed:'true'" style="width:500px;height:250px;padding:5px;">
+		<div class="easyui-layout" data-options="fit:true">
+			<div data-options="region:'center'" style="padding:10px;">
+				姓&emsp;&emsp;名：<input name="name" style="width: 200" validType="length[3,30]" class="easyui-validatebox" required="true"> <br> <br>
+				密&emsp;&emsp;码：<input name="password" style="width: 200" type="password"  validType="length[3,30]" class="easyui-validatebox" required="true"> <br> <br>
+				年&emsp;&emsp;龄：<input class="easyui-numberspinner" name="age" min="18" max="60" increment="1" style="width:200px;"></input><br> <br>
+				出生年月：<input name="birthday" style="width: 200" class="Wdate" onClick="WdatePicker()"><br> <br>
+			</div>
+			<div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
+				<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="javascript:alert('ok')" style="width:80px">Ok</a>
+				<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)" onclick="javascript:alert('cancel')" style="width:80px">Cancel</a>
+			</div>
+		</div>
 	</div>
   </body>
 </html>

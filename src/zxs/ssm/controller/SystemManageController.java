@@ -40,11 +40,18 @@ public class SystemManageController {
 		return "systemManage/list";
 	}
 		
+	//查询用户列表
 	@RequestMapping(value="/queryList",method=RequestMethod.POST)
 	@ResponseBody         
 	public Map<String, Object> queryList(DataGridModel dgm,Users user) throws Exception{
 		//spring太给力了，可以自动装配两个对象  会自动的装返回的Map转换成JSON对象
 	    //return userService.getPageListByExemple(dgm, user); 
 	    return umService.getPageList(dgm, user);
+	}
+	
+	//新增用户
+	@RequestMapping(value="/popWindow",method=RequestMethod.GET)
+	public String popWindow() throws Exception{
+		return "systemManage/popWindow";
 	}
 }

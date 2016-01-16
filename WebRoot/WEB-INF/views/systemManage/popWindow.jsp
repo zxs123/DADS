@@ -1,13 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
 <html>
   <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="" />
+<meta name="Description" content="" />
+<title>新增用户</title>
+<link rel="stylesheet" type="text/css"
+	href="<%=basePath%>jquery-easyui-1.4.4/themes/gray/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="<%=basePath%>jquery-easyui-1.4.4/themes/icon.css" />
+<script type="text/javascript"
+	src="<%=basePath%>jquery-easyui-1.4.4/jquery.min.js"></script>
+<script type="text/javascript"
+	src="<%=basePath%>jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="<%=basePath%>jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/base-loading.js"></script>
   	<script type="text/javascript">
 		jQuery(function($){
 			//下拉表格初始化
 			$('#addDeptId').combobox({
 				valueField:'depId', //值字段
 			    textField:'depName', //显示的字段
-			    url:'dept/allList',
+			    url:'<%=basePath%>dept/queryAll.action',
 			    panelHeight:'auto',
 			    required:true,
 				editable:false//不可编辑，只能选择
@@ -19,7 +39,7 @@
 			if(!r) {
 				return false;
 			}
-			$.post("user/addOrUpdate",$("#userForm").serializeArray(),function(data){
+			$.post("<%=basePath%>user/addOrUpdate.action",$("#userForm").serializeArray(),function(data){
 				$('#MyPopWindow').window('close');
 				$('#userTable').datagrid('reload');  
 				$.messager.alert('提示',data.mes,'info');
