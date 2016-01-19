@@ -37,6 +37,7 @@ public class UsersManageServiceImpl implements UsersManageService{
 				criteria.andDepIdEqualTo(user.getUserDep());
 			}
 			if(user.getUserRname()!=null && !("".equals(user.getUserRname())) && !("kongbai".equals(user.getUserRname()))){
+
 				criteria.andUserRnameEqualTo(user.getUserRname());
 			}
 			list = umMapper.selectByExample(umExample);
