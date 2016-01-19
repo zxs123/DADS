@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zxs.ssm.mapper.BidPlanMapper" >
+  <resultMap id="BaseResultMap" type="zxs.ssm.po.BidPlan" >
+    <id column="p_id" property="pId" jdbcType="VARCHAR" />
+    <result column="p_name" property="pName" jdbcType="VARCHAR" />
+    <result column="p_type" property="pType" jdbcType="VARCHAR" />
+    <result column="p_service" property="pService" jdbcType="VARCHAR" />
+    <result column="p_scale" property="pScale" jdbcType="VARCHAR" />
+    <result column="p_ownername" property="pOwnername" jdbcType="VARCHAR" />
+    <result column="p_construction" property="pConstruction" jdbcType="VARCHAR" />
+    <result column="p_location" property="pLocation" jdbcType="VARCHAR" />
+    <result column="p_opentime" property="pOpentime" jdbcType="VARCHAR" />
+    <result column="p_bmanager" property="pBmanager" jdbcType="VARCHAR" />
+    <result column="p_pmanager" property="pPmanager" jdbcType="VARCHAR" />
+    <result column="p_depId" property="pDepid" jdbcType="VARCHAR" />
+    <result column="P_date" property="pDate" jdbcType="VARCHAR" />
+    <result column="p_sign" property="pSign" jdbcType="INTEGER" />
+    <result column="p_design" property="pDesign" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    p_id, p_name, p_type, p_service, p_scale, p_ownername, p_construction, p_location, 
+    p_opentime, p_bmanager, p_pmanager, p_depId, P_date, p_sign, p_design
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="zxs.ssm.po.BidPlanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from BidPlan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from BidPlan
+    where p_id = #{pId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from BidPlan
+    where p_id = #{pId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="zxs.ssm.po.BidPlanExample" >
+    delete from BidPlan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="zxs.ssm.po.BidPlan" >
+    insert into BidPlan (p_id, p_name, p_type, 
+      p_service, p_scale, p_ownername, 
+      p_construction, p_location, p_opentime, 
+      p_bmanager, p_pmanager, p_depId, 
+      P_date, p_sign, p_design
+      )
+    values (#{pId,jdbcType=VARCHAR}, #{pName,jdbcType=VARCHAR}, #{pType,jdbcType=VARCHAR}, 
+      #{pService,jdbcType=VARCHAR}, #{pScale,jdbcType=VARCHAR}, #{pOwnername,jdbcType=VARCHAR}, 
+      #{pConstruction,jdbcType=VARCHAR}, #{pLocation,jdbcType=VARCHAR}, #{pOpentime,jdbcType=VARCHAR}, 
+      #{pBmanager,jdbcType=VARCHAR}, #{pPmanager,jdbcType=VARCHAR}, #{pDepid,jdbcType=VARCHAR}, 
+      #{pDate,jdbcType=VARCHAR}, #{pSign,jdbcType=INTEGER}, #{pDesign,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="zxs.ssm.po.BidPlan" >
+    insert into BidPlan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pId != null" >
+        p_id,
+      </if>
+      <if test="pName != null" >
+        p_name,
+      </if>
+      <if test="pType != null" >
+        p_type,
+      </if>
+      <if test="pService != null" >
+        p_service,
+      </if>
+      <if test="pScale != null" >
+        p_scale,
+      </if>
+      <if test="pOwnername != null" >
+        p_ownername,
+      </if>
+      <if test="pConstruction != null" >
+        p_construction,
+      </if>
+      <if test="pLocation != null" >
+        p_location,
+      </if>
+      <if test="pOpentime != null" >
+        p_opentime,
+      </if>
+      <if test="pBmanager != null" >
+        p_bmanager,
+      </if>
+      <if test="pPmanager != null" >
+        p_pmanager,
+      </if>
+      <if test="pDepid != null" >
+        p_depId,
+      </if>
+      <if test="pDate != null" >
+        P_date,
+      </if>
+      <if test="pSign != null" >
+        p_sign,
+      </if>
+      <if test="pDesign != null" >
+        p_design,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pId != null" >
+        #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="pName != null" >
+        #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="pType != null" >
+        #{pType,jdbcType=VARCHAR},
+      </if>
+      <if test="pService != null" >
+        #{pService,jdbcType=VARCHAR},
+      </if>
+      <if test="pScale != null" >
+        #{pScale,jdbcType=VARCHAR},
+      </if>
+      <if test="pOwnername != null" >
+        #{pOwnername,jdbcType=VARCHAR},
+      </if>
+      <if test="pConstruction != null" >
+        #{pConstruction,jdbcType=VARCHAR},
+      </if>
+      <if test="pLocation != null" >
+        #{pLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="pOpentime != null" >
+        #{pOpentime,jdbcType=VARCHAR},
+      </if>
+      <if test="pBmanager != null" >
+        #{pBmanager,jdbcType=VARCHAR},
+      </if>
+      <if test="pPmanager != null" >
+        #{pPmanager,jdbcType=VARCHAR},
+      </if>
+      <if test="pDepid != null" >
+        #{pDepid,jdbcType=VARCHAR},
+      </if>
+      <if test="pDate != null" >
+        #{pDate,jdbcType=VARCHAR},
+      </if>
+      <if test="pSign != null" >
+        #{pSign,jdbcType=INTEGER},
+      </if>
+      <if test="pDesign != null" >
+        #{pDesign,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="zxs.ssm.po.BidPlanExample" resultType="java.lang.Integer" >
+    select count(*) from BidPlan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update BidPlan
+    <set >
+      <if test="record.pId != null" >
+        p_id = #{record.pId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pName != null" >
+        p_name = #{record.pName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pType != null" >
+        p_type = #{record.pType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pService != null" >
+        p_service = #{record.pService,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pScale != null" >
+        p_scale = #{record.pScale,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pOwnername != null" >
+        p_ownername = #{record.pOwnername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pConstruction != null" >
+        p_construction = #{record.pConstruction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pLocation != null" >
+        p_location = #{record.pLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pOpentime != null" >
+        p_opentime = #{record.pOpentime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pBmanager != null" >
+        p_bmanager = #{record.pBmanager,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pPmanager != null" >
+        p_pmanager = #{record.pPmanager,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pDepid != null" >
+        p_depId = #{record.pDepid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pDate != null" >
+        P_date = #{record.pDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pSign != null" >
+        p_sign = #{record.pSign,jdbcType=INTEGER},
+      </if>
+      <if test="record.pDesign != null" >
+        p_design = #{record.pDesign,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update BidPlan
+    set p_id = #{record.pId,jdbcType=VARCHAR},
+      p_name = #{record.pName,jdbcType=VARCHAR},
+      p_type = #{record.pType,jdbcType=VARCHAR},
+      p_service = #{record.pService,jdbcType=VARCHAR},
+      p_scale = #{record.pScale,jdbcType=VARCHAR},
+      p_ownername = #{record.pOwnername,jdbcType=VARCHAR},
+      p_construction = #{record.pConstruction,jdbcType=VARCHAR},
+      p_location = #{record.pLocation,jdbcType=VARCHAR},
+      p_opentime = #{record.pOpentime,jdbcType=VARCHAR},
+      p_bmanager = #{record.pBmanager,jdbcType=VARCHAR},
+      p_pmanager = #{record.pPmanager,jdbcType=VARCHAR},
+      p_depId = #{record.pDepid,jdbcType=VARCHAR},
+      P_date = #{record.pDate,jdbcType=VARCHAR},
+      p_sign = #{record.pSign,jdbcType=INTEGER},
+      p_design = #{record.pDesign,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="zxs.ssm.po.BidPlan" >
+    update BidPlan
+    <set >
+      <if test="pName != null" >
+        p_name = #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="pType != null" >
+        p_type = #{pType,jdbcType=VARCHAR},
+      </if>
+      <if test="pService != null" >
+        p_service = #{pService,jdbcType=VARCHAR},
+      </if>
+      <if test="pScale != null" >
+        p_scale = #{pScale,jdbcType=VARCHAR},
+      </if>
+      <if test="pOwnername != null" >
+        p_ownername = #{pOwnername,jdbcType=VARCHAR},
+      </if>
+      <if test="pConstruction != null" >
+        p_construction = #{pConstruction,jdbcType=VARCHAR},
+      </if>
+      <if test="pLocation != null" >
+        p_location = #{pLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="pOpentime != null" >
+        p_opentime = #{pOpentime,jdbcType=VARCHAR},
+      </if>
+      <if test="pBmanager != null" >
+        p_bmanager = #{pBmanager,jdbcType=VARCHAR},
+      </if>
+      <if test="pPmanager != null" >
+        p_pmanager = #{pPmanager,jdbcType=VARCHAR},
+      </if>
+      <if test="pDepid != null" >
+        p_depId = #{pDepid,jdbcType=VARCHAR},
+      </if>
+      <if test="pDate != null" >
+        P_date = #{pDate,jdbcType=VARCHAR},
+      </if>
+      <if test="pSign != null" >
+        p_sign = #{pSign,jdbcType=INTEGER},
+      </if>
+      <if test="pDesign != null" >
+        p_design = #{pDesign,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where p_id = #{pId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="zxs.ssm.po.BidPlan" >
+    update BidPlan
+    set p_name = #{pName,jdbcType=VARCHAR},
+      p_type = #{pType,jdbcType=VARCHAR},
+      p_service = #{pService,jdbcType=VARCHAR},
+      p_scale = #{pScale,jdbcType=VARCHAR},
+      p_ownername = #{pOwnername,jdbcType=VARCHAR},
+      p_construction = #{pConstruction,jdbcType=VARCHAR},
+      p_location = #{pLocation,jdbcType=VARCHAR},
+      p_opentime = #{pOpentime,jdbcType=VARCHAR},
+      p_bmanager = #{pBmanager,jdbcType=VARCHAR},
+      p_pmanager = #{pPmanager,jdbcType=VARCHAR},
+      p_depId = #{pDepid,jdbcType=VARCHAR},
+      P_date = #{pDate,jdbcType=VARCHAR},
+      p_sign = #{pSign,jdbcType=INTEGER},
+      p_design = #{pDesign,jdbcType=VARCHAR}
+    where p_id = #{pId,jdbcType=VARCHAR}
+  </update>
+</mapper>

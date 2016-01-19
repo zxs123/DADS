@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zxs.ssm.mapper.ContractsMapper" >
+  <resultMap id="BaseResultMap" type="zxs.ssm.po.Contracts" >
+    <id column="c_id" property="cId" jdbcType="VARCHAR" />
+    <result column="bid_id" property="bidId" jdbcType="VARCHAR" />
+    <result column="c_name" property="cName" jdbcType="VARCHAR" />
+    <result column="c_money" property="cMoney" jdbcType="VARCHAR" />
+    <result column="c_signTime" property="cSigntime" jdbcType="VARCHAR" />
+    <result column="c_date" property="cDate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    c_id, bid_id, c_name, c_money, c_signTime, c_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="zxs.ssm.po.ContractsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from contracts
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from contracts
+    where c_id = #{cId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from contracts
+    where c_id = #{cId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="zxs.ssm.po.ContractsExample" >
+    delete from contracts
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="zxs.ssm.po.Contracts" >
+    insert into contracts (c_id, bid_id, c_name, 
+      c_money, c_signTime, c_date
+      )
+    values (#{cId,jdbcType=VARCHAR}, #{bidId,jdbcType=VARCHAR}, #{cName,jdbcType=VARCHAR}, 
+      #{cMoney,jdbcType=VARCHAR}, #{cSigntime,jdbcType=VARCHAR}, #{cDate,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="zxs.ssm.po.Contracts" >
+    insert into contracts
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cId != null" >
+        c_id,
+      </if>
+      <if test="bidId != null" >
+        bid_id,
+      </if>
+      <if test="cName != null" >
+        c_name,
+      </if>
+      <if test="cMoney != null" >
+        c_money,
+      </if>
+      <if test="cSigntime != null" >
+        c_signTime,
+      </if>
+      <if test="cDate != null" >
+        c_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cId != null" >
+        #{cId,jdbcType=VARCHAR},
+      </if>
+      <if test="bidId != null" >
+        #{bidId,jdbcType=VARCHAR},
+      </if>
+      <if test="cName != null" >
+        #{cName,jdbcType=VARCHAR},
+      </if>
+      <if test="cMoney != null" >
+        #{cMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="cSigntime != null" >
+        #{cSigntime,jdbcType=VARCHAR},
+      </if>
+      <if test="cDate != null" >
+        #{cDate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="zxs.ssm.po.ContractsExample" resultType="java.lang.Integer" >
+    select count(*) from contracts
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update contracts
+    <set >
+      <if test="record.cId != null" >
+        c_id = #{record.cId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bidId != null" >
+        bid_id = #{record.bidId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cName != null" >
+        c_name = #{record.cName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cMoney != null" >
+        c_money = #{record.cMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cSigntime != null" >
+        c_signTime = #{record.cSigntime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cDate != null" >
+        c_date = #{record.cDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update contracts
+    set c_id = #{record.cId,jdbcType=VARCHAR},
+      bid_id = #{record.bidId,jdbcType=VARCHAR},
+      c_name = #{record.cName,jdbcType=VARCHAR},
+      c_money = #{record.cMoney,jdbcType=VARCHAR},
+      c_signTime = #{record.cSigntime,jdbcType=VARCHAR},
+      c_date = #{record.cDate,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="zxs.ssm.po.Contracts" >
+    update contracts
+    <set >
+      <if test="bidId != null" >
+        bid_id = #{bidId,jdbcType=VARCHAR},
+      </if>
+      <if test="cName != null" >
+        c_name = #{cName,jdbcType=VARCHAR},
+      </if>
+      <if test="cMoney != null" >
+        c_money = #{cMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="cSigntime != null" >
+        c_signTime = #{cSigntime,jdbcType=VARCHAR},
+      </if>
+      <if test="cDate != null" >
+        c_date = #{cDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where c_id = #{cId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="zxs.ssm.po.Contracts" >
+    update contracts
+    set bid_id = #{bidId,jdbcType=VARCHAR},
+      c_name = #{cName,jdbcType=VARCHAR},
+      c_money = #{cMoney,jdbcType=VARCHAR},
+      c_signTime = #{cSigntime,jdbcType=VARCHAR},
+      c_date = #{cDate,jdbcType=VARCHAR}
+    where c_id = #{cId,jdbcType=VARCHAR}
+  </update>
+</mapper>
