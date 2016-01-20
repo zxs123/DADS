@@ -2,7 +2,7 @@ package zxs.ssm.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import zxs.ssm.po.BidPan;
+import zxs.ssm.po.BidPlan;
 import zxs.ssm.po.BidPlanExample;
 
 public interface BidPlanMapper {
@@ -12,19 +12,19 @@ public interface BidPlanMapper {
 
     int deleteByPrimaryKey(String pId);
 
-    int insert(BidPan record);
+    int insert(BidPlan record);
 
-    int insertSelective(BidPan record);
+    int insertSelective(BidPlan record);
 
-    List<BidPan> selectByExample(BidPlanExample example);
+    List<BidPlan> selectByExample(BidPlanExample example);
 
-    BidPan selectByPrimaryKey(String pId);
+    BidPlan selectByPrimaryKey(String pId);
 
-    int updateByExampleSelective(@Param("record") BidPan record, @Param("example") BidPlanExample example);
+    int updateByExampleSelective(@Param("record") BidPlan record, @Param("example") BidPlanExample example);
 
-    int updateByExample(@Param("record") BidPan record, @Param("example") BidPlanExample example);
+    int updateByExample(@Param("record") BidPlan record, @Param("example") BidPlanExample example);
 
-    int updateByPrimaryKeySelective(BidPan record);
+    int updateByPrimaryKeySelective(BidPlan record);
 
-    int updateByPrimaryKey(BidPan record);
+    int updateByPrimaryKey(BidPlan record);
 }

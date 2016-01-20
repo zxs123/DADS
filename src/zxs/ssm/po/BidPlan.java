@@ -1,6 +1,6 @@
 package zxs.ssm.po;
 
-public class BidPan {
+public class BidPlan {
     private String pId;
 
     private String pName;
