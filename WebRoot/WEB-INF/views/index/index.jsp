@@ -122,5 +122,14 @@ function addTab(href,title){
         });
     } 
 }
+function update(next){
+	var curTab = $("#workTabs").tabs('getSelected');
+	$("#workTabs").tabs('update',{
+		tab:curTab,
+		options:{
+			content:'<iframe src="'+next+'" style="border:0px;overflow:auto;width:100%;height:100%;"  noresize="noresize"></iframe>'
+		}
+	});
+}
 </script>
 </html>
