@@ -26,4 +26,6 @@
 	
 	<bean id="umService" class="zxs.ssm.service.impl.UsersManageServiceImpl"/>
 	
+	<bean id="repInService" class="zxs.ssm.service.impl.ReportInputServiceImpl"/>
+	
 </beans>

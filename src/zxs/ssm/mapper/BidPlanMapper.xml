@@ -111,13 +111,13 @@
     </if>
   </delete>
   <insert id="insert" parameterType="zxs.ssm.po.BidPlan" >
-    insert into BidPlan (p_id, p_name, p_type, 
+    insert into BidPlan (p_name, p_type, 
       p_service, p_scale, p_ownername, 
       p_construction, p_location, p_opentime, 
       p_bmanager, p_pmanager, p_depId, 
       P_date, p_sign, p_design
       )
-    values (#{pId,jdbcType=VARCHAR}, #{pName,jdbcType=VARCHAR}, #{pType,jdbcType=VARCHAR}, 
+    values (#{pName,jdbcType=VARCHAR}, #{pType,jdbcType=VARCHAR}, 
       #{pService,jdbcType=VARCHAR}, #{pScale,jdbcType=VARCHAR}, #{pOwnername,jdbcType=VARCHAR}, 
       #{pConstruction,jdbcType=VARCHAR}, #{pLocation,jdbcType=VARCHAR}, #{pOpentime,jdbcType=VARCHAR}, 
       #{pBmanager,jdbcType=VARCHAR}, #{pPmanager,jdbcType=VARCHAR}, #{pDepid,jdbcType=VARCHAR}, 
@@ -127,9 +127,6 @@
   <insert id="insertSelective" parameterType="zxs.ssm.po.BidPlan" >
     insert into BidPlan
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="pId != null" >
-        p_id,
-      </if>
       <if test="pName != null" >
         p_name,
       </if>
@@ -174,9 +171,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="pId != null" >
-        #{pId,jdbcType=VARCHAR},
-      </if>
       <if test="pName != null" >
         #{pName,jdbcType=VARCHAR},
       </if>
