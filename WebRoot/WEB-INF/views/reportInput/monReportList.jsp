@@ -293,7 +293,7 @@
 		
 		//绑定“下一步”按钮的点击事件
 		$("#nextStep").click(function(){
-			parent.update('.../bids.jsp');
+			parent.update('<%=basePath %>reportInput/bidsInput.action');
 		});
 	});
 </script>
