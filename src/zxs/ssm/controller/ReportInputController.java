@@ -25,6 +25,11 @@ public class ReportInputController {
 	public String showMonReportIn() throws Exception{
 		return "reportInput/monReportList";
 	}
+	//显示投标的录入界面
+	@RequestMapping("bidsInput")
+	public String showBidsIn() throws Exception{
+		return "reportInput/bids";
+	}
 	
 	//查询月报录入的列表
 	@RequestMapping(value="/queryMonReportList",method=RequestMethod.POST)

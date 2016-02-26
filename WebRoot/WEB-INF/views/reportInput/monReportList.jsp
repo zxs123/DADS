@@ -172,7 +172,8 @@
 					//打开新增对话框
 					$("#mydialog").dialog('open');
 					//清空表单的数据
-					$("#myform").get(0).reset();
+					//$("#myform").get(0).reset();
+					$("#myform").form('clear');
 				}
 			}, '-', {
 				text : '修改',
@@ -193,8 +194,7 @@
 						}); 
 						//打开新增对话框
 						$("#mydialog").dialog('open');
-						console.info($("#test1").val());
-						console.info($("#test").val());
+						$("#myform").form('clear');
 						$("#myform").form('load',{
 							pId:arr[0].pId,   
 							pName:arr[0].pName,
@@ -212,8 +212,6 @@
 							pSign:arr[0].pSign,
 							pDesign:arr[0].pDesign
 						});
-						console.info($("#test1").val());
-						console.info($("#test").val());
 					}
 				}
 			}, '-', {
@@ -292,12 +290,18 @@
 		$("#cancelbtn").click(function(){
 			$("#mydialog").dialog('close');
 		});
+		
+		//绑定“下一步”按钮的点击事件
+		$("#nextStep").click(function(){
+			parent.update('<%=basePath %>reportInput/bidsInput.action');
+		});
 	});
 </script>
 </head>
 <body>
 	<div id="tabdiv" style="padding: 30">
 		<table id="bidPlanTable" style="height: 300px"></table>
+		<a id="nextStep" class="easyui-linkbutton" >下一步</a>
 	</div>
 	<div id="mydialog" title="新增投标计划" class="easyui-dialog" data-options="modal:true,closed:true" 
 		style="width: 300px; height: 500px">
