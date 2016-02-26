@@ -299,7 +299,7 @@
 	<div id="tabdiv" style="padding: 30">
 		<table id="bidPlanTable" style="height: 300px"></table>
 	</div>
-	<div id="mydialog" title="新增投标计划" class="easyui-dialog" modal="true" closed="true"
+	<div id="mydialog" title="新增投标计划" class="easyui-dialog" data-options="modal:true,closed:true" 
 		style="width: 300px; height: 500px">
 		<form id="myform" action="" method="post">
 			<input name="pId" type="hidden" value="" />
