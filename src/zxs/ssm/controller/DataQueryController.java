@@ -5,7 +5,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import zxs.ssm.po.BidPlan;
 import zxs.ssm.services.DataQueryService;
@@ -29,7 +30,8 @@ public class DataQueryController {
 		return "dataQuery/quarterReport";
 	}
 	//月报主页显示的列表
-	@RequestMapping("queryMonthReportList")
+	@ResponseBody
+	@RequestMapping(value="/queryMonthReportList",method=RequestMethod.POST)
 	public Map<String,Object> queryMonthReportList(DataGridModel dgm,BidPlan bidplan) throws Exception{
 		
 		return dataQueryService.getPageList(dgm, bidplan);

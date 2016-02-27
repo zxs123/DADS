@@ -35,7 +35,7 @@
 			fitColumns: true, 
 			striped: true, 
 			collapsible:true,
-			url:"<%=basePath%>dataQuery/queryMonthReportList.action",
+			url:'queryMonthReportList.action',
 			sortName: 'pDate', 
 			sortOrder: 'desc',
 			remoteSort: true, 
@@ -44,16 +44,11 @@
 			pagination:true, 
 			rownumbers:true, 
 			columns:[[
-				{field:'pName',title:'项目名称',width:20,sortable:true,
+				{field:'pName',title:'项目名称',width:100,sortable:true,
 					formatter:function(value,row,index){return row.pName;} 
 				},
-				{field:'pType',title:'工程类别',width:20,sortable:true,
-					formatter:function(value,row,index){return row.userId;}
-				},
-				{field:'depName',title:'所属部门',width:30,sortable:true,
-					formatter:function(value,row,index){
-						return row.depName;  //该列的值是deptId，显示的是deptName
-					}
+				{field:'pType',title:'工程类别',width:100,sortable:true,
+					formatter:function(value,row,index){return row.pType;}
 				},
 				{field:'pOwnername',title : '业主名称',width:100,align:'center',
 					formatter : function(value, row, index) { return row.pOwnername;}

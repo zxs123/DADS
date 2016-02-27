@@ -16,6 +16,7 @@ public class DataQueryServiceImpl implements DataQueryService{
 	
     @Autowired
 	private BidPlanMapper bidplanMapper;
+    
 	@Override
 	public Map<String, Object> getPageList(DataGridModel dgm, BidPlan bidplan) throws Exception {
 		Map<String,Object> result = new HashMap<String, Object>();

@@ -28,4 +28,6 @@
 	
 	<bean id="repInService" class="zxs.ssm.service.impl.ReportInputServiceImpl"/>
 	
+	<bean id="dataQueryService" class="zxs.ssm.service.impl.DataQueryServiceImpl" />
+	
 </beans>
