@@ -25,7 +25,6 @@ import zxs.ssm.services.DepartmentService;
 import zxs.ssm.services.FunctionLimitService;
 import zxs.ssm.services.FunctionModuleService;
 import zxs.ssm.services.UsersService;
-import zxs.ssm.util.DataGridModel;
 
 @Controller
 @RequestMapping("/user")
