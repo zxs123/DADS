@@ -27,4 +27,8 @@
 	<bean id="umService" class="zxs.ssm.service.impl.UsersManageServiceImpl"/>
 	
 	<bean id="monRepInputService" class="zxs.ssm.service.impl.MonRepInputServiceImpl"/>
+	
+
+	<bean id="dataQueryService" class="zxs.ssm.service.impl.DataQueryServiceImpl" />
+
 </beans>
