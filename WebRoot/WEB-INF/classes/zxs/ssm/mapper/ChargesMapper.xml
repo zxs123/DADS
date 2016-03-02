@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zxs.ssm.mapper.ChargesMapper" >
+  <resultMap id="BaseResultMap" type="zxs.ssm.po.Charges" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="ch_Id" property="chId" jdbcType="VARCHAR" />
+    <result column="ch_money" property="chMoney" jdbcType="VARCHAR" />
+    <result column="ch_state" property="chState" jdbcType="VARCHAR" />
+    <result column="ch_thismoney" property="chThismoney" jdbcType="VARCHAR" />
+    <result column="ch_sumMoney" property="chSummoney" jdbcType="VARCHAR" />
+    <result column="ch_planMoney" property="chPlanmoney" jdbcType="VARCHAR" />
+    <result column="ch_depId" property="chDepid" jdbcType="VARCHAR" />
+    <result column="ch_date" property="chDate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Id, ch_Id, ch_money, ch_state, ch_thismoney, ch_sumMoney, ch_planMoney, ch_depId, 
+    ch_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="zxs.ssm.po.ChargesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from charges
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from charges
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from charges
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="zxs.ssm.po.ChargesExample" >
+    delete from charges
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="zxs.ssm.po.Charges" >
+    insert into charges (Id, ch_Id, ch_money, 
+      ch_state, ch_thismoney, ch_sumMoney, 
+      ch_planMoney, ch_depId, ch_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{chId,jdbcType=VARCHAR}, #{chMoney,jdbcType=VARCHAR}, 
+      #{chState,jdbcType=VARCHAR}, #{chThismoney,jdbcType=VARCHAR}, #{chSummoney,jdbcType=VARCHAR}, 
+      #{chPlanmoney,jdbcType=VARCHAR}, #{chDepid,jdbcType=VARCHAR}, #{chDate,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="zxs.ssm.po.Charges" >
+    insert into charges
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="chId != null" >
+        ch_Id,
+      </if>
+      <if test="chMoney != null" >
+        ch_money,
+      </if>
+      <if test="chState != null" >
+        ch_state,
+      </if>
+      <if test="chThismoney != null" >
+        ch_thismoney,
+      </if>
+      <if test="chSummoney != null" >
+        ch_sumMoney,
+      </if>
+      <if test="chPlanmoney != null" >
+        ch_planMoney,
+      </if>
+      <if test="chDepid != null" >
+        ch_depId,
+      </if>
+      <if test="chDate != null" >
+        ch_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="chId != null" >
+        #{chId,jdbcType=VARCHAR},
+      </if>
+      <if test="chMoney != null" >
+        #{chMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="chState != null" >
+        #{chState,jdbcType=VARCHAR},
+      </if>
+      <if test="chThismoney != null" >
+        #{chThismoney,jdbcType=VARCHAR},
+      </if>
+      <if test="chSummoney != null" >
+        #{chSummoney,jdbcType=VARCHAR},
+      </if>
+      <if test="chPlanmoney != null" >
+        #{chPlanmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="chDepid != null" >
+        #{chDepid,jdbcType=VARCHAR},
+      </if>
+      <if test="chDate != null" >
+        #{chDate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="zxs.ssm.po.ChargesExample" resultType="java.lang.Integer" >
+    select count(*) from charges
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update charges
+    <set >
+      <if test="record.id != null" >
+        Id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.chId != null" >
+        ch_Id = #{record.chId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chMoney != null" >
+        ch_money = #{record.chMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chState != null" >
+        ch_state = #{record.chState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chThismoney != null" >
+        ch_thismoney = #{record.chThismoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chSummoney != null" >
+        ch_sumMoney = #{record.chSummoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chPlanmoney != null" >
+        ch_planMoney = #{record.chPlanmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chDepid != null" >
+        ch_depId = #{record.chDepid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chDate != null" >
+        ch_date = #{record.chDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update charges
+    set Id = #{record.id,jdbcType=INTEGER},
+      ch_Id = #{record.chId,jdbcType=VARCHAR},
+      ch_money = #{record.chMoney,jdbcType=VARCHAR},
+      ch_state = #{record.chState,jdbcType=VARCHAR},
+      ch_thismoney = #{record.chThismoney,jdbcType=VARCHAR},
+      ch_sumMoney = #{record.chSummoney,jdbcType=VARCHAR},
+      ch_planMoney = #{record.chPlanmoney,jdbcType=VARCHAR},
+      ch_depId = #{record.chDepid,jdbcType=VARCHAR},
+      ch_date = #{record.chDate,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="zxs.ssm.po.Charges" >
+    update charges
+    <set >
+      <if test="chId != null" >
+        ch_Id = #{chId,jdbcType=VARCHAR},
+      </if>
+      <if test="chMoney != null" >
+        ch_money = #{chMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="chState != null" >
+        ch_state = #{chState,jdbcType=VARCHAR},
+      </if>
+      <if test="chThismoney != null" >
+        ch_thismoney = #{chThismoney,jdbcType=VARCHAR},
+      </if>
+      <if test="chSummoney != null" >
+        ch_sumMoney = #{chSummoney,jdbcType=VARCHAR},
+      </if>
+      <if test="chPlanmoney != null" >
+        ch_planMoney = #{chPlanmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="chDepid != null" >
+        ch_depId = #{chDepid,jdbcType=VARCHAR},
+      </if>
+      <if test="chDate != null" >
+        ch_date = #{chDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="zxs.ssm.po.Charges" >
+    update charges
+    set ch_Id = #{chId,jdbcType=VARCHAR},
+      ch_money = #{chMoney,jdbcType=VARCHAR},
+      ch_state = #{chState,jdbcType=VARCHAR},
+      ch_thismoney = #{chThismoney,jdbcType=VARCHAR},
+      ch_sumMoney = #{chSummoney,jdbcType=VARCHAR},
+      ch_planMoney = #{chPlanmoney,jdbcType=VARCHAR},
+      ch_depId = #{chDepid,jdbcType=VARCHAR},
+      ch_date = #{chDate,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

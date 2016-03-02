@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zxs.ssm.mapper.BidsMapper" >
+  <resultMap id="BaseResultMap" type="zxs.ssm.po.Bids" >
+    <id column="bid_id" property="bidId" jdbcType="VARCHAR" />
+    <result column="p_id" property="pId" jdbcType="VARCHAR" />
+    <result column="bid_State" property="bidState" jdbcType="VARCHAR" />
+    <result column="bid_time" property="bidTime" jdbcType="VARCHAR" />
+    <result column="bid_money" property="bidMoney" jdbcType="VARCHAR" />
+    <result column="bid_date" property="bidDate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    bid_id, p_id, bid_State, bid_time, bid_money, bid_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="zxs.ssm.po.BidsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bids
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bids
+    where bid_id = #{bidId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bids
+    where bid_id = #{bidId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="zxs.ssm.po.BidsExample" >
+    delete from bids
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="zxs.ssm.po.Bids" >
+    insert into bids (bid_id, p_id, bid_State, 
+      bid_time, bid_money, bid_date
+      )
+    values (#{bidId,jdbcType=VARCHAR}, #{pId,jdbcType=VARCHAR}, #{bidState,jdbcType=VARCHAR}, 
+      #{bidTime,jdbcType=VARCHAR}, #{bidMoney,jdbcType=VARCHAR}, #{bidDate,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="zxs.ssm.po.Bids" >
+    insert into bids
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bidId != null" >
+        bid_id,
+      </if>
+      <if test="pId != null" >
+        p_id,
+      </if>
+      <if test="bidState != null" >
+        bid_State,
+      </if>
+      <if test="bidTime != null" >
+        bid_time,
+      </if>
+      <if test="bidMoney != null" >
+        bid_money,
+      </if>
+      <if test="bidDate != null" >
+        bid_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bidId != null" >
+        #{bidId,jdbcType=VARCHAR},
+      </if>
+      <if test="pId != null" >
+        #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="bidState != null" >
+        #{bidState,jdbcType=VARCHAR},
+      </if>
+      <if test="bidTime != null" >
+        #{bidTime,jdbcType=VARCHAR},
+      </if>
+      <if test="bidMoney != null" >
+        #{bidMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="bidDate != null" >
+        #{bidDate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="zxs.ssm.po.BidsExample" resultType="java.lang.Integer" >
+    select count(*) from bids
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update bids
+    <set >
+      <if test="record.bidId != null" >
+        bid_id = #{record.bidId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pId != null" >
+        p_id = #{record.pId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bidState != null" >
+        bid_State = #{record.bidState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bidTime != null" >
+        bid_time = #{record.bidTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bidMoney != null" >
+        bid_money = #{record.bidMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bidDate != null" >
+        bid_date = #{record.bidDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update bids
+    set bid_id = #{record.bidId,jdbcType=VARCHAR},
+      p_id = #{record.pId,jdbcType=VARCHAR},
+      bid_State = #{record.bidState,jdbcType=VARCHAR},
+      bid_time = #{record.bidTime,jdbcType=VARCHAR},
+      bid_money = #{record.bidMoney,jdbcType=VARCHAR},
+      bid_date = #{record.bidDate,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="zxs.ssm.po.Bids" >
+    update bids
+    <set >
+      <if test="pId != null" >
+        p_id = #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="bidState != null" >
+        bid_State = #{bidState,jdbcType=VARCHAR},
+      </if>
+      <if test="bidTime != null" >
+        bid_time = #{bidTime,jdbcType=VARCHAR},
+      </if>
+      <if test="bidMoney != null" >
+        bid_money = #{bidMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="bidDate != null" >
+        bid_date = #{bidDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where bid_id = #{bidId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="zxs.ssm.po.Bids" >
+    update bids
+    set p_id = #{pId,jdbcType=VARCHAR},
+      bid_State = #{bidState,jdbcType=VARCHAR},
+      bid_time = #{bidTime,jdbcType=VARCHAR},
+      bid_money = #{bidMoney,jdbcType=VARCHAR},
+      bid_date = #{bidDate,jdbcType=VARCHAR}
+    where bid_id = #{bidId,jdbcType=VARCHAR}
+  </update>
+</mapper>
