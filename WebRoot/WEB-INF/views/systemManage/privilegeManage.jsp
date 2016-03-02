@@ -8,29 +8,22 @@
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
+<!DOCTYPE html>
 <html>
-
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="Keywords" content="" />
-<meta name="Description" content="" />
-<title>统计软件首页</title>
+<title>用户管理</title>
 <link rel="stylesheet" type="text/css"
-	href="<%=basePath%>jquery-easyui-1.4.4/themes/gray/easyui.css" />
+	href="../jquery-easyui-1.4.4/themes/gray/easyui.css" />
 <link rel="stylesheet" type="text/css"
-	href="<%=basePath%>jquery-easyui-1.4.4/themes/icon.css" />
+	href="../jquery-easyui-1.4.4/themes/icon.css" />
 <script type="text/javascript"
-	src="<%=basePath%>jquery-easyui-1.4.4/jquery.min.js"></script>
+	src="../jquery-easyui-1.4.4/jquery.min.js"></script>
 <script type="text/javascript"
-	src="<%=basePath%>jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
+	src="../jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
 <script type="text/javascript"
-	src="<%=basePath%>jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript" src="<%=basePath%>js/base-loading.js"></script>
-<link type="text/css" rel="stylesheet"
-	href="<%=basePath%>css/index/top.css" />
-<%-- <script type="text/javascript" src="../js/base-loading.js"></script>
+	src="../jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../js/base-loading.js"></script>
     <script type="text/javascript">
     jQuery(function($){
 		$('#userTable').datagrid({
@@ -127,10 +120,10 @@
 	});
     //新增
     function addrow(){
-    	$('#w').window('open');
-    	showWindow({
+    	<%--//$('#privilige').window('open');
+    	 showWindow({
   			title:'增加用户信息',
-  			href:'<%=basePath%>systemManage/popWindow.action',
+  			href:'<%=basePath%>systemManage/getOrgTree.action',
   			width:300,
   			height:250,
   			onLoad: function(){
@@ -138,10 +131,23 @@
   			}
   			
   		});
-	}
+  		
+  		 --%>
+  		$('#privilige').dialog({
+  		    title: '权限设置',
+  		    width: 260,
+  		    height: 410,
+  		    closed: false,
+  		    cache: false,
+  		    href: '<%=basePath%>systemManage/getOrgTree.action',
+  		    modal: true
+  		});
+  		$('#privilige').dialog('refresh', '<%=basePath%>systemManage/getOrgTree.action');
+    
+    }
   //更新
     function updaterow(){
-		var rows = $('#userTable').datagrid('getSelections');
+		<%-- var rows = $('#userTable').datagrid('getSelections');
 		//这里有一个jquery easyui datagrid的一个小bug，必须把主键单独列出来，要不然不能多选
 		if(rows.length==0){
 			$.messager.alert('提示',"请选择你要更新的用户",'info');
@@ -162,7 +168,8 @@
   			//而spring mvc中表单元素的名称不带对象前缀，直拉就是id，所以这里load的时候是：.form('load', rows[0].user)
   				$("#userForm").form('load', rows[0].user);
   			}
-  		});
+  		}); --%>
+  		window.open ('<%=basePath%>systemManage/getOrgTree.action','newwindow','height=100,width=400,top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
 	}
   	
   //删除
@@ -199,11 +206,11 @@
 		searchUser();
 	}
     
-	</script> --%>	
+	</script>	
   </head>
   
   <body>
-    <%-- <form id="queryForm" style="margin:8;text-align: center;">
+    <form id="queryForm" style="margin:8;text-align: center;">
 		<table width="100%">
 			<tr>
 			<td>所属部门：<input id="deptCombo" name="userDep" style="width: 300"></td>
@@ -222,67 +229,19 @@
 	</form>
 	<div style="padding:10" id="tabdiv">
 		<table id="userTable"></table>
-	</div> --%>
-
-	<a id="nextStep" class="easyui-linkbutton" >下一步</a>
-
-	<div class="level2Style">
-		<a style="font: 14px" href="javascript:void(0);"
-			onclick="javascript:addTab('<%=basePath %>systemManage/getOrgTree.action','测试')">测试</a>
 	</div>
-
-<!-- 	<div id="w" class="easyui-window" title="用户添加" data-options="iconCls:'icon-save',closed:'true'" style="width:500px;height:250px;padding:5px;">
-		<div class="easyui-layout" data-options="fit:true">
-			<div data-options="region:'center'" style="padding:10px;">
-				姓&emsp;&emsp;名：<input name="name" style="width: 200" validType="length[3,30]" class="easyui-validatebox" required="true"> <br> <br>
-				密&emsp;&emsp;码：<input name="password" style="width: 200" type="password"  validType="length[3,30]" class="easyui-validatebox" required="true"> <br> <br>
-				年&emsp;&emsp;龄：<input class="easyui-numberspinner" name="age" min="18" max="60" increment="1" style="width:200px;"></input><br> <br>
-				出生年月：<input name="birthday" style="width: 200" class="Wdate" onClick="WdatePicker()"><br> <br>
-			</div>
-			<div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
-				<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="javascript:alert('ok')" style="width:80px">Ok</a>
-				<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)" onclick="javascript:alert('cancel')" style="width:80px">Cancel</a>
-			</div>
-		</div>
-		<div region="center" collapsible="false"
-			style="width: 100%; margin-top: 5px; margin-left: 5px;"
-			border="false">
-			<div style="float: left; margin-left: 10px;" id="rightC">
-				<strong><span style="color: #ff0000;">
-					<ul id="tree"></ul></span>
-				</strong>
-			</div>
-		</div>
-	</div> -->
+	<div id="privilige" class="easyui-window" title="修改权限" data-options="iconCls:'icon-save',closed:'true'" style="width:500px;height:250px;padding:5px;">
+	</div>
   </body>
-  
-  <script type="text/javascript">
-  function addTab(href,title){
-		var tabWidth=1400;
-		var tabHeight=90;
-	    if($("#workTabs").tabs("exists",title)){
-	        $("#workTabs").tabs('select',title);
-	    }else{
-	        $("#workTabs").tabs("add",{
-	            title:title,
-	            content:'<iframe src="'+href+'" style="border:0px;overflow:auto;width:100%;height:100%;"  noresize="noresize"></iframe>',
-	            closable:true
-	        });
-	    } 
-	}
-	function update(next){
-		var curTab = $("#workTabs").tabs('getSelected');
-		$("#workTabs").tabs('update',{
-			tab:curTab,
-			options:{
-				content:'<iframe src="'+next+'" style="border:0px;overflow:auto;width:100%;height:100%;"  noresize="noresize"></iframe>'
-			}
-		});
-	}
-	
-	//绑定“下一步”按钮的点击事件
+
+<script type="text/javascript">
+  $(function() {
+  //绑定“下一步”按钮的点击事件
 	$("#nextStep").click(function(){
-		parent.update('<%=basePath %>systemManage/getOrgTree.action');
+		parent.update('<%=basePath%>systemManage/getOrgTree.action');
 	});
-  </script>
+  });
+</script>
+
 </html>
+
