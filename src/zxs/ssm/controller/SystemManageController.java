@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +44,7 @@ public class SystemManageController {
 	@Autowired
 	HttpSession session;
 	
-	@RequestMapping("getUsers")
+	@RequestMapping("/getUsers")
 	public View getUsers() throws Exception{
 		Map<String,Object> result = new HashMap<String,Object>();
 		List<Users> users = usersService.selectByExample(null);
@@ -52,7 +53,7 @@ public class SystemManageController {
 		return new JsonView(result);
 	}
 	
-	@RequestMapping("userManage")
+	@RequestMapping("/userManage")
 	public String test() throws Exception{
 		return "systemManage/list";
 	}
@@ -73,7 +74,7 @@ public class SystemManageController {
 	}	
 	
 	//权限管理
-	@RequestMapping("privilegeManage")
+	@RequestMapping("/privilegeManage")
 	public String prilivigeManage() throws Exception{
 		return "systemManage/privilegeManage";
 	}
@@ -111,6 +112,13 @@ public class SystemManageController {
 			e.printStackTrace();
 		}
 		return "systemManage/test";
+	}
+	
+	//2016-3-2返回json数据
+	@RequestMapping("/getJson")
+	public String getJson() throws Exception{
+		String str = "";
+		return str;
 	}
 	
 }

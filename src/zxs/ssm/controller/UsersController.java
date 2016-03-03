@@ -121,8 +121,8 @@ public class UsersController {
 	
 	@RequestMapping(value = "/test")
 	public String test(){
-		//return "systemManage/userManage";
-		return "jsp/success";
+		return "test/privilege";
+		//return "jsp/success";
 	}
 		
 	// 退出系统
