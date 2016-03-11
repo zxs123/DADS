@@ -6,10 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 import javax.servlet.http.HttpSession;
-
-import org.json.simple.JSONObject;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -84,13 +82,6 @@ public class SystemManageController {
 	public String main(
 			Model model,Locale locale ) {
 		try {	
-			/*List<FunctionLimit> flList = flService.selectByExample(null);   //通过角色查询权限
-			List<FunctionModule> fmList = new ArrayList<FunctionModule>();
-			for(Iterator<FunctionLimit> iterator = flList.iterator();iterator.hasNext();){  
-				FunctionLimit fl = iterator.next();
-				FunctionModule fm = fmService.selectByPrimaryKey(fl.getFlFmid());
-				fmList.add(fm);
-	        }*/
 			List<FunctionModule> fmList = fmService.selectByExample(null);
 			model.addAttribute("privileges", fmList);
 			
@@ -115,10 +106,107 @@ public class SystemManageController {
 	}
 	
 	//2016-3-2返回json数据
-	@RequestMapping("/getJson")
-	public String getJson() throws Exception{
-		String str = "";
-		return str;
+	@ResponseBody  
+	@RequestMapping(value="/getJson",method=RequestMethod.POST)
+	public String  getJson() throws Exception{
+
+/*		List<Map> list = new ArrayList();		
+		Map<String,Object> result2 = new HashMap<String,Object>();
+		result2.put("text", "apple");	
+		list.add(result2);
+		Map<String,Object> result3 = new HashMap<String,Object>();
+		result3.put("text", "orange");	
+		result3.put("checked", "false");
+		list.add(result3);
+		
+		Map<String,Object> result1 = new HashMap<String,Object>();
+		result1.put("id", 2);
+		result1.put("text", "Fruits");	
+		result1.put("State", "closed");	
+		result1.put("children", list);
+		
+		
+		List<Map> list1 = new ArrayList();
+		list1.add(result1);
+		list1.add(result1);
+		
+		Map<String,Object> result = new HashMap<String,Object>();
+		result.put("id", 1);
+		result.put("text", "food");	
+		result.put("children", list1);
+		
+		List<Map> list2 = new ArrayList();
+		list2.add(result);*/
+		
+		
+        
+        List<FunctionModule> fmList = fmService.selectByExample(null);
+		
+		Users user = (Users) session.getAttribute("baseUser");
+		//System.out.println(user);
+		int position = user.getUserPosition();  //获取用户角色
+		FunctionLimitExample flExample = new FunctionLimitExample();
+		Criteria criteria = flExample.createCriteria();
+		criteria.andFlRoleidEqualTo(position);
+		List<FunctionLimit> flList2 = flService.selectByExample(flExample);   //通过角色查询权限
+		List<FunctionModule> fmList2 = new ArrayList<FunctionModule>();
+		for(Iterator<FunctionLimit> iterator = flList2.iterator();iterator.hasNext();){  
+			FunctionLimit fl = iterator.next();
+			FunctionModule fm = fmService.selectByPrimaryKey(fl.getFlFmid());
+			fmList2.add(fm);
+        }
+		
+		List<Map> list2 = new ArrayList();
+		int mn=1;
+		for(int i=0;i<fmList.size();i++){
+			FunctionModule fm = fmList.get(i);
+			
+			if(fm.getFmCategory()==-1){
+				List<Map> list1 = new ArrayList();
+				for(int j=0;j<fmList.size();j++){
+					FunctionModule fm1 = fmList.get(j);
+					Map<String,Object> result1 = new HashMap<String,Object>();
+					if(fm1.getFmCategory()==fm.getFmId()){
+						
+						List<Map> list = new ArrayList();
+						for(int k=0;k<fmList.size();k++){
+							FunctionModule fm2 = fmList.get(k);							
+							
+							if(fm2.getFmCategory()==fm1.getFmId()){								
+								Map<String,Object> result2 = new HashMap<String,Object>();
+								result2.put("text", fm2.getFmName());
+								for(int m=0;m<fmList2.size();m++){
+									FunctionModule fm3 = fmList2.get(m);
+									if(m!=11){
+										if(fm3.getFmId() == fm2.getFmId() || fm3.getFmId().equals(fm2.getFmId())){
+											result2.put("checked", "ture");
+										}
+									}
+								}
+								list.add(result2);
+							}
+						}						
+						result1.put("id", ++mn);
+						result1.put("text", fm1.getFmName());	
+						result1.put("State", "closed");	
+						result1.put("children", list);
+						list1.add(result1);
+						result1=null;
+					}					
+				}
+				Map<String,Object> result = new HashMap<String,Object>();
+				result.put("id", 1);
+				result.put("text", fm.getFmName());	
+				result.put("children", list1);
+				list2.add(result);
+			}
+		}
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+        String jsonString=objectMapper.writeValueAsString(list2);
+        System.out.println(jsonString);
+        
+        return jsonString;
 	}
-	
+
 }

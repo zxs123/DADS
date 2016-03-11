@@ -29,7 +29,7 @@
 		<input type="checkbox" onchange="$('#tt').tree({onlyLeafCheck:$(this).is(':checked')})">OnlyLeafCheck
 	</div>
 	<div class="easyui-panel" style="padding:5px">
-		<ul id="tt" class="easyui-tree" data-options="url:'<%=basePath%>systemManage/getJson.action',method:'get',animate:true,checkbox:true"></ul>
+		<ul id="tt" class="easyui-tree" data-options="url:'<%=basePath%>systemManage/getJson.action',method:'post',animate:true,checkbox:true"></ul>
 	</div>
 	<script type="text/javascript">
 		function getChecked(){
