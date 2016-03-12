@@ -38,14 +38,13 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public int deleteByPrimaryKey(String userId) {
-		usersMapper.deleteByPrimaryKey(userId);
-		return 0;
+		int n = usersMapper.deleteByPrimaryKey(userId);
+		return n;
 	}
 
 	@Override
 	public int insert(Users record) {
-		// TODO Auto-generated method stub
-		return 0;
+		return usersMapper.insert(record);
 	}
 
 	@Override
@@ -62,8 +61,8 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public Users selectByPrimaryKey(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+		Users u = usersMapper.selectByPrimaryKey(userId);
+		return u;
 	}
 
 	@Override
@@ -86,8 +85,7 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public int updateByPrimaryKey(Users record) {
-		// TODO Auto-generated method stub
-		return 0;
+		return usersMapper.updateByPrimaryKey(record);
 	}
 
 	@Override

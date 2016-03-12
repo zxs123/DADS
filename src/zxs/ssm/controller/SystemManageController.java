@@ -1,12 +1,17 @@
 package zxs.ssm.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,8 +19,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.et.mvc.JsonView;
 import com.et.mvc.View;
+
 import zxs.ssm.po.FunctionLimit;
 import zxs.ssm.po.FunctionLimitExample;
 import zxs.ssm.po.FunctionModule;
@@ -171,4 +178,93 @@ public class SystemManageController {
         return jsonString;
 	}
 
+	//2016-3-12添加用户
+	@ResponseBody  
+	@RequestMapping(value="/saveUser",method=RequestMethod.POST)
+	private void save(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			String userId = request.getParameter("userId");
+			String userName = request.getParameter("userName");
+			String userSex = request.getParameter("userSex");
+			String userDep = request.getParameter("userDep");
+			int userPosition = Integer.valueOf(request.getParameter("userPosition"));
+			String userCellphone = request.getParameter("userCellphone");
+			String userTel = request.getParameter("userTel");
+			String userEmail = request.getParameter("userEmail");
+			String userIdcard = request.getParameter("userIdcard");
+			Users user = new Users();
+			user.setUserId(userId);
+			user.setUserPassword(userId);
+			user.setUserName(userName);
+			user.setUserRname("1");
+			user.setUserSex(userSex);
+			user.setUserDep(userDep);
+			user.setUserPosition(userPosition);
+			user.setUserCellphone(userCellphone);
+			user.setUserTel(userTel);;
+			user.setUserEmail(userEmail);
+			user.setUserIdcard(userIdcard);
+			usersService.insert(user);
+			response.setContentType("text/html;charset=utf-8");
+			//{"status":"ok" , "message":"操作成功"}
+			String str = "{\"status\":\"ok\" , \"message\":\"操作成功!\"}";
+			response.getWriter().write(str);
+		} catch (Exception e) {
+			response.setContentType("text/html;charset=utf-8");
+			//{"status":"fail" , "message":"操作失败!"}
+			String str = "{\"status\":\"fail\" , \"message\":\"操作失败!\"}";
+			try {
+				response.getWriter().write(str);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+	}
+	
+	
+	//2016-3-12添加用户
+	@ResponseBody  
+	@RequestMapping(value="/updateUser",method=RequestMethod.POST)
+	private void updateUser(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			String userId = request.getParameter("userId");
+			Users user = usersService.selectByPrimaryKey(userId);
+			
+			String userName = request.getParameter("userName");
+			String userSex = request.getParameter("userSex");
+			String userDep = request.getParameter("userDep");
+			//int userPosition = Integer.valueOf(request.getParameter("userPosition"));
+			String userCellphone = request.getParameter("userCellphone");
+			String userTel = request.getParameter("userTel");
+			String userEmail = request.getParameter("userEmail");
+			String userIdcard = request.getParameter("userIdcard");
+
+			user.setUserId(userId);
+			user.setUserPassword(userId);
+			user.setUserName(userName);
+			user.setUserRname("1");
+			user.setUserSex(userSex);
+			user.setUserDep(userDep);
+			user.setUserPosition(6);
+			user.setUserCellphone(userCellphone);
+			user.setUserTel(userTel);;
+			user.setUserEmail(userEmail);
+			user.setUserIdcard(userIdcard);
+			usersService.updateByPrimaryKey(user);
+			response.setContentType("text/html;charset=utf-8");
+			String str = "{\"status\":\"ok\" , \"message\":\"操作成功!\"}";
+			response.getWriter().write(str);
+			
+		} catch (Exception e) {
+			response.setContentType("text/html;charset=utf-8");
+			String str = "{\"status\":\"fail\" , \"message\":\"操作失败!\"}";
+			try {
+				response.getWriter().write(str);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+	}
 }

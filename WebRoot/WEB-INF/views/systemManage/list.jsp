@@ -25,7 +25,53 @@
 	src="../jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="../js/base-loading.js"></script>
     <script type="text/javascript">
+   
     jQuery(function($){
+	    /**
+		 *  提交表单方法
+		 */
+		$('#btn1').click(function(){
+				if($('#myform').form('validate')){
+					$.ajax({
+						type: 'post' ,
+						url: flag=='add'?'<%=basePath%>systemManage/saveUser.action':'<%=basePath%>systemManage/updateUser.action' ,
+						cache:false ,
+						data:$('#myform').serialize() ,
+						dataType:'json' ,
+						success:function(result){
+							//1 关闭窗口
+							$('#mydialog').dialog('close');
+							//2刷新datagrid 
+							$('#userTable').datagrid('reload');
+							//3 提示信息
+							$.messager.show({
+								title:result.status , 
+								msg:result.message
+							});
+						} ,
+						error:function(result){
+							$.meesager.show({
+								title:result.status , 
+								msg:result.message
+							});
+						}
+					});
+				} else {
+					$.messager.show({
+						title:'提示信息!' ,
+						msg:'数据验证不通过,不能保存!'
+					});
+				}
+		});
+		
+		/**
+		 * 关闭窗口方法
+		 */
+		$('#btn2').click(function(){
+			$('#mydialog').dialog('close');
+		});
+
+    
 		$('#userTable').datagrid({
 			title:'用户列表', //标题
 			method:'post',
@@ -118,44 +164,46 @@
 		});
 
 	});
+    
     //新增
     function addrow(){
-    	$('#mydialog').dialog('open');
-    	<%-- showWindow({
-  			title:'增加用户信息',
-  			href:'<%=basePath%>systemManage/popWindow.action',
-  			width:300,
-  			height:250,
-  			onLoad: function(){
-  				$('#userForm').form('clear');
-  			}
-  			
-  		}); --%>
+    	flag = 'add';
+		$('#mydialog').dialog({
+				title:'新增用户' 
+		});
+		//$('#myform').find('input[name!=sex]').val("");
+		$('#myform').get(0).reset();
+		//$('#myform').form('clear');
+		$('#mydialog').dialog('open');
 	}
+    
   //更新
     function updaterow(){
-		var rows = $('#userTable').datagrid('getSelections');
-		//这里有一个jquery easyui datagrid的一个小bug，必须把主键单独列出来，要不然不能多选
-		if(rows.length==0){
-			$.messager.alert('提示',"请选择你要更新的用户",'info');
-			return;
+    	flag = 'edit';
+		var arr =$('#userTable').datagrid('getSelections');
+		if(arr.length != 1){
+			$.messager.show({
+				title:'提示信息!',
+				msg:'只能选择一行记录进行修改!'
+			});
+		} else {
+			$('#mydialog').dialog({
+				title:'修改用户'
+			});
+			$('#mydialog').dialog('open'); //打开窗口
+			$('#myform').get(0).reset();   //清空表单数据 
+			$('#myform').form('load',{	   //调用load方法把所选中的数据load到表单中,非常方便
+				userId:arr[0].userId ,
+				userName:arr[0].userName ,
+				userSex:arr[0].userSex ,
+				userDep:arr[0].depName ,
+				userPosition:arr[0].srName ,
+				userCellphone:arr[0].userCellphone ,
+				userTel:arr[0].userTel ,
+				userEmail:arr[0].userEmail ,
+				userIdcard:arr[0].userIdcard,
+			});
 		}
-		if(rows.length > 1){
-			$.messager.alert('提示',"只能选择一位用户进行更新",'info');
-			return;
-		}
-		showWindow({
-  			title:'更新用户信息',
-  			href:'<%=basePath%>user/popWindow.action',
-  			width:300,
-  			height:250,
-  			onLoad: function(){
-  			//自动将数据填充到表单中，无需再查询数据库，这里需要注意：
-  			//如果用的是struts2，它的表单元素的名称都是user.id这样的，那load的时候不能加.user要.form('load', rows[0]);
-  			//而spring mvc中表单元素的名称不带对象前缀，直拉就是id，所以这里load的时候是：.form('load', rows[0].user)
-  				$("#userForm").form('load', rows[0].user);
-  			}
-  		});
 	}
   	
   //删除
@@ -192,6 +240,19 @@
 		searchUser();
 	}
     
+	//js方法：序列化表单 			
+	function serializeForm(form){
+		var obj = {};
+		$.each(form.serializeArray(),function(index){
+			if(obj[this['name']]){
+				obj[this['name']] = obj[this['name']] + ','+this['value'];
+			} else {
+				obj[this['name']] =this['value'];
+			}
+		});
+		return obj;
+	}
+	
 	</script>	
   </head>
   
@@ -217,60 +278,62 @@
 		<table id="userTable"></table>
 	</div>
 	<div id="mydialog" modal=true class="easyui-dialog" title="添加用户" data-options="iconCls:'icon-save',closed:'true'" style="width:260px;height:320px;">
-		<div class="easyui-layout" data-options="fit:true">
+		<form id="myform" action="" method="post">
+			<input type="hidden" name="id" value="" />
 			<table>
 				<tr>
 					<td align="right">登录帐号：</td>
-					<td><input type="text" name="userId" class="easyui-validatebox" required=ture validTyp="midLength(2,5)" missingMessage="登录用户"></input></td>
+					<td><input type="text" name="userId"
+						class="easyui-validatebox" required=ture validTyp="midLength(2,5)"
+						missingMessage="登录用户"></input></td>
 				</tr>
 				<tr>
 					<td align="right">姓名：</td>
-					<td><input type="text" name="userName" class="easyui-validatebox" required=ture validTyp="midLength(2,5)" missingMessage="姓名"></input></td>
+					<td><input type="text" name="userName"
+						class="easyui-validatebox" required=ture validTyp="midLength(2,5)"
+						missingMessage="姓名"></input></td>
 				</tr>
 				<tr>
 					<td align="right">性别：</td>
-					<td>
-						男<input type="radio" checked="checked" name="sex" value="1" />
-						女<input type="radio" name="sex" value="1" />
+					<td>男<input type="radio" checked="checked" name="userSex"
+						value="1" /> 女<input type="radio" name="userSex" value="1" />
 					</td>
 				</tr>
 				<tr>
 					<td align="right">所属部门：</td>
-					<td>
-						<input name="department" class="easyui-combobox" data-options="valueField:'depId',textField:'depName',url:'<%=basePath%>dept/getDepName.action'" value="" />
-					</td>
+					<td><input name="userDep" class="easyui-combobox"
+						data-options="valueField:'depId',textField:'depName',url:'<%=basePath%>dept/getDepName.action'"
+						value="" /></td>
 				</tr>
 				<tr>
 					<td align="right">用户角色：</td>
-					<td>
-						<input name="department" class="easyui-combobox" data-options="valueField:'srId',textField:'srName',url:'<%=basePath%>SystemRole/getRoleName.action'" value="" />
-					</td>
+					<td><input name="userPosition" class="easyui-combobox"
+						data-options="valueField:'srId',textField:'srName',url:'<%=basePath%>SystemRole/getRoleName.action'"
+						value="" /></td>
 				</tr>
 				<tr>
 					<td align="right">办公电话：</td>
-					<td><input id="telephone" type="text" name="telephone" value="" /></td>
+					<td><input id="userCellphone" type="text" name="userCellphone"
+						value="" /></td>
 				</tr>
 				<tr>
 					<td align="right">手机：</td>
-					<td><input id="phone" type="text" name="phone" value="" /></td>
+					<td><input id="userTel" type="text" name="userTel" value="" /></td>
 				</tr>
 				<tr>
 					<td align="right">邮箱：</td>
-					<td><input id="email" type="text" name="email" value="" /></td>
+					<td><input id="userEmail" type="text" name="userEmail" value="" /></td>
 				</tr>
 				<tr>
 					<td align="right">身份证号：</td>
-					<td><input id="IDnumber" type="text" name="IDnumber" value="" /></td>
+					<td><input id="userIdcard" type="text" name="userIdcard" value="" /></td>
 				</tr>
 				<tr align="center">
-					<td align="center" colspan="2" height="30px">
-						<a class="easyui-linkbutton">保存</a>
-						<a class="easyui-linkbutton">取消</a>
-					</td>
+					<td colspan="2"><a id="btn1" class="easyui-linkbutton">确定</a>
+						<a id="btn2" class="easyui-linkbutton">关闭</a></td>
 				</tr>
 			</table>
-
-		</div>
+		</form>
 	</div>
   </body>
   
