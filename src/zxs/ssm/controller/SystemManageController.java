@@ -69,7 +69,7 @@ public class SystemManageController {
 	@RequestMapping(value="/popWindow",method=RequestMethod.GET)
 	public String popWindow() throws Exception{
 		return "systemManage/popWindow";
-	}	
+	}
 	
 	//权限管理
 	@RequestMapping("/privilegeManage")
@@ -110,46 +110,15 @@ public class SystemManageController {
 	@RequestMapping(value="/getJson",method=RequestMethod.POST)
 	public String  getJson() throws Exception{
 
-/*		List<Map> list = new ArrayList();		
-		Map<String,Object> result2 = new HashMap<String,Object>();
-		result2.put("text", "apple");	
-		list.add(result2);
-		Map<String,Object> result3 = new HashMap<String,Object>();
-		result3.put("text", "orange");	
-		result3.put("checked", "false");
-		list.add(result3);
-		
-		Map<String,Object> result1 = new HashMap<String,Object>();
-		result1.put("id", 2);
-		result1.put("text", "Fruits");	
-		result1.put("State", "closed");	
-		result1.put("children", list);
-		
-		
-		List<Map> list1 = new ArrayList();
-		list1.add(result1);
-		list1.add(result1);
-		
-		Map<String,Object> result = new HashMap<String,Object>();
-		result.put("id", 1);
-		result.put("text", "food");	
-		result.put("children", list1);
-		
-		List<Map> list2 = new ArrayList();
-		list2.add(result);*/
-		
-		
-        
-        List<FunctionModule> fmList = fmService.selectByExample(null);
-		
-		Users user = (Users) session.getAttribute("baseUser");
-		//System.out.println(user);
+		//获取系统所有功能权限，保存到fmList中
+        List<FunctionModule> fmList = fmService.selectByExample(null);		
+        Users user = (Users) session.getAttribute("baseUser");
 		int position = user.getUserPosition();  //获取用户角色
 		FunctionLimitExample flExample = new FunctionLimitExample();
 		Criteria criteria = flExample.createCriteria();
 		criteria.andFlRoleidEqualTo(position);
 		List<FunctionLimit> flList2 = flService.selectByExample(flExample);   //通过角色查询权限
-		List<FunctionModule> fmList2 = new ArrayList<FunctionModule>();
+		List<FunctionModule> fmList2 = new ArrayList<FunctionModule>();//将该角色的功能权限保存在fmList2中
 		for(Iterator<FunctionLimit> iterator = flList2.iterator();iterator.hasNext();){  
 			FunctionLimit fl = iterator.next();
 			FunctionModule fm = fmService.selectByPrimaryKey(fl.getFlFmid());
@@ -159,28 +128,23 @@ public class SystemManageController {
 		List<Map> list2 = new ArrayList();
 		int mn=1;
 		for(int i=0;i<fmList.size();i++){
-			FunctionModule fm = fmList.get(i);
-			
+			FunctionModule fm = fmList.get(i);			
 			if(fm.getFmCategory()==-1){
 				List<Map> list1 = new ArrayList();
 				for(int j=0;j<fmList.size();j++){
 					FunctionModule fm1 = fmList.get(j);
 					Map<String,Object> result1 = new HashMap<String,Object>();
-					if(fm1.getFmCategory()==fm.getFmId()){
-						
+					if(fm1.getFmCategory()==fm.getFmId()||(fm1.getFmCategory().equals(fm.getFmId()))){						
 						List<Map> list = new ArrayList();
-						for(int k=0;k<fmList.size();k++){
-							FunctionModule fm2 = fmList.get(k);							
-							
-							if(fm2.getFmCategory()==fm1.getFmId()){								
+						for(int k=0;k<fmList.size();k++){							
+							FunctionModule fm2 = fmList.get(k);	
+							if(fm2.getFmCategory()==fm1.getFmId()||fm2.getFmCategory().equals(fm1.getFmId())){
 								Map<String,Object> result2 = new HashMap<String,Object>();
 								result2.put("text", fm2.getFmName());
 								for(int m=0;m<fmList2.size();m++){
 									FunctionModule fm3 = fmList2.get(m);
-									if(m!=11){
-										if(fm3.getFmId() == fm2.getFmId() || fm3.getFmId().equals(fm2.getFmId())){
-											result2.put("checked", "ture");
-										}
+									if(fm3.getFmId().equals(fm2.getFmId())||fm3.getFmId()==fm2.getFmId()){
+										result2.put("checked", "ture");//以后包含该权限
 									}
 								}
 								list.add(result2);
@@ -201,11 +165,9 @@ public class SystemManageController {
 				list2.add(result);
 			}
 		}
-		
 		ObjectMapper objectMapper = new ObjectMapper();
         String jsonString=objectMapper.writeValueAsString(list2);
         System.out.println(jsonString);
-        
         return jsonString;
 	}
 

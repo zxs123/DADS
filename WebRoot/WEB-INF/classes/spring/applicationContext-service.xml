@@ -30,5 +30,10 @@
 	
 
 	<bean id="dataQueryService" class="zxs.ssm.service.impl.DataQueryServiceImpl" />
+	
+	
+	<bean id="systemRoleServiceImpl" class="zxs.ssm.service.impl.SystemRoleServiceImpl" />
+	
+	
 
 </beans>

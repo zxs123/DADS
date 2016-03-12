@@ -120,7 +120,7 @@
 	});
     //新增
     function addrow(){
-    	$('#w').window('open');
+    	$('#mydialog').dialog('open');
     	<%-- showWindow({
   			title:'增加用户信息',
   			href:'<%=basePath%>systemManage/popWindow.action',
@@ -216,19 +216,73 @@
 	<div style="padding:10" id="tabdiv">
 		<table id="userTable"></table>
 	</div>
-	<div id="w" class="easyui-window" title="用户添加" data-options="iconCls:'icon-save',closed:'true'" style="width:500px;height:250px;padding:5px;">
+	<div id="mydialog" modal=true class="easyui-dialog" title="添加用户" data-options="iconCls:'icon-save',closed:'true'" style="width:260px;height:320px;">
 		<div class="easyui-layout" data-options="fit:true">
-			<div data-options="region:'center'" style="padding:10px;">
-				姓&emsp;&emsp;名：<input name="name" style="width: 200" validType="length[3,30]" class="easyui-validatebox" required="true"> <br> <br>
-				密&emsp;&emsp;码：<input name="password" style="width: 200" type="password"  validType="length[3,30]" class="easyui-validatebox" required="true"> <br> <br>
-				年&emsp;&emsp;龄：<input class="easyui-numberspinner" name="age" min="18" max="60" increment="1" style="width:200px;"></input><br> <br>
-				出生年月：<input name="birthday" style="width: 200" class="Wdate" onClick="WdatePicker()"><br> <br>
-			</div>
-			<div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
-				<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="javascript:alert('ok')" style="width:80px">Ok</a>
-				<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)" onclick="javascript:alert('cancel')" style="width:80px">Cancel</a>
-			</div>
+			<table>
+				<tr>
+					<td align="right">登录帐号：</td>
+					<td><input type="text" name="userId" class="easyui-validatebox" required=ture validTyp="midLength(2,5)" missingMessage="登录用户"></input></td>
+				</tr>
+				<tr>
+					<td align="right">姓名：</td>
+					<td><input type="text" name="userName" class="easyui-validatebox" required=ture validTyp="midLength(2,5)" missingMessage="姓名"></input></td>
+				</tr>
+				<tr>
+					<td align="right">性别：</td>
+					<td>
+						男<input type="radio" checked="checked" name="sex" value="1" />
+						女<input type="radio" name="sex" value="1" />
+					</td>
+				</tr>
+				<tr>
+					<td align="right">所属部门：</td>
+					<td>
+						<input name="department" class="easyui-combobox" data-options="valueField:'depId',textField:'depName',url:'<%=basePath%>dept/getDepName.action'" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td align="right">用户角色：</td>
+					<td>
+						<input name="department" class="easyui-combobox" data-options="valueField:'srId',textField:'srName',url:'<%=basePath%>SystemRole/getRoleName.action'" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td align="right">办公电话：</td>
+					<td><input id="telephone" type="text" name="telephone" value="" /></td>
+				</tr>
+				<tr>
+					<td align="right">手机：</td>
+					<td><input id="phone" type="text" name="phone" value="" /></td>
+				</tr>
+				<tr>
+					<td align="right">邮箱：</td>
+					<td><input id="email" type="text" name="email" value="" /></td>
+				</tr>
+				<tr>
+					<td align="right">身份证号：</td>
+					<td><input id="IDnumber" type="text" name="IDnumber" value="" /></td>
+				</tr>
+				<tr align="center">
+					<td align="center" colspan="2" height="30px">
+						<a class="easyui-linkbutton">保存</a>
+						<a class="easyui-linkbutton">取消</a>
+					</td>
+				</tr>
+			</table>
+
 		</div>
 	</div>
   </body>
+  
+  <script type="text/javascript">
+		function getChecked(){
+			var nodes = $('#tt').tree('getChecked');
+			var s = '';
+			for(var i=0; i<nodes.length; i++){
+				if (s != '') s += ',';
+				s += nodes[i].text;
+			}
+			alert(s);
+		}
+	</script>
 </html>
