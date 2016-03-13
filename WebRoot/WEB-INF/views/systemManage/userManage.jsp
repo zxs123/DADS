@@ -260,7 +260,6 @@
 		}
 	}
   
-  
     //表格查询
 	function searchUser(){
 		var params = $('#userTable').datagrid('options').queryParams; //先取得 datagrid 的查询参数
