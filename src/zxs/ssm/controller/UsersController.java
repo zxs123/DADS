@@ -143,7 +143,7 @@ public class UsersController {
 	public String list(Model model) throws Exception {
 		//model.addAttribute("deptList", deptService.getDeptList());
 		model.addAttribute("deptList", depService.selectDepNameList());
-		return "systemManage/list";
+		return "systemManage/userManage";
 	}
 
 	/*2016-01-12此部分代码移到UsersManageController中 

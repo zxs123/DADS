@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.et.mvc.JsonView;
@@ -60,7 +61,7 @@ public class SystemManageController {
 	
 	@RequestMapping("/userManage")
 	public String test() throws Exception{
-		return "systemManage/list";
+		return "systemManage/userManage";
 	}
 		
 	//查询用户列表
@@ -267,4 +268,45 @@ public class SystemManageController {
 			e.printStackTrace();
 		}
 	}
+	
+
+	//删除用户
+		@RequestMapping(value="/delete",method=RequestMethod.POST)
+		@ResponseBody
+		public Map<String, String> delete(@RequestParam("userId") List<String> userId)throws Exception{
+			//spring mvc 还可以将参数绑定为list类型
+			Map<String, String> map = new HashMap<String, String>();
+			try {
+				usersService.deleteUsers(userId);
+				map.put("mes", "删除成功");
+			} catch (Exception e) {
+				e.printStackTrace();
+				map.put("mes", "删除失败");
+				throw e;
+			}
+			return map;//重定向
+		}
+	
+		
+	//初始化密码
+	@RequestMapping(value="/initializeP",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> initializeP(@RequestParam("userId") List<String> userId, HttpServletRequest request)throws Exception{
+		//spring mvc 还可以将参数绑定为list类型
+		Map<String, String> map = new HashMap<String, String>();
+		try {
+			for(int i=0;i<userId.size();i++){
+				Users user = usersService.selectByPrimaryKey(userId.get(i));
+				user.setUserPassword(userId.get(i));
+				usersService.updateByPrimaryKey(user);
+			}
+			map.put("mes", "初始化密码成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("mes", "初始化密码失败");
+			throw e;
+		}
+		return map;//重定向
+	}
+	
 }

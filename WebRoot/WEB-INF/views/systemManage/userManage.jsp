@@ -139,7 +139,7 @@
 				text:'初始化密码',
 				iconCls:'icon-reset',
 				handler:function(){
-					deleterow();
+					initializeP();
 				}
 			},'-'],
 			onLoadSuccess:function(){
@@ -208,23 +208,59 @@
   	
   //删除
   	function deleterow(){
-  		$.messager.confirm('提示','确定要删除吗?',function(result){
-	        if (result){
-	        	var rows = $('#userTable').datagrid('getSelections');
-	        	var ps = "";
-	        	$.each(rows,function(i,n){
-	        		if(i==0) 
-	        			ps += "?userId="+n.userId;
-	        		else
-	        			ps += "&userId="+n.userId;
-	        	});
-	        	$.post('<%=basePath%>user/delete.action'+ps,function(data){
-		        	$('#userTable').datagrid('reload'); 
-	        		$.messager.alert('提示',data.mes,'info');
-	        	});
-	        }
-	    });
+		var rows =$('#userTable').datagrid('getSelections');
+		if(rows.length == 0){
+			$.messager.show({
+				title:'提示信息!',
+				msg:'至少选择一条记录进行删除!'
+			});
+		} else {
+	  		$.messager.confirm('提示','确定要删除吗?',function(result){
+		        if (result){
+		        	var ps = "";
+		        	$.each(rows,function(i,n){
+		        		if(i==0) 
+		        			ps += "?userId="+n.userId;
+		        		else
+		        			ps += "&userId="+n.userId;
+		        	});
+		        	$.post('<%=basePath%>systemManage/delete.action'+ps,function(data){
+			        	$('#userTable').datagrid('reload'); 
+		        		$.messager.alert('提示',data.mes,'info');
+		        	});
+		        }
+		    });
+		}
   	}
+  
+  //初始化密码
+  	function initializeP(){
+  		var rows =$('#userTable').datagrid('getSelections');
+		if(rows.length == 0){
+			$.messager.show({
+				title:'提示信息!',
+				msg:'至少选择一条记录进行初始化密码!'
+			});
+		} else {
+			$.messager.confirm('提示','确定要初始化密码吗?',function(result){
+		        if (result){
+		        	var ps = "";
+		        	$.each(rows,function(i,n){
+		        		if(i==0) 
+		        			ps += "?userId="+n.userId;
+		        		else
+		        			ps += "&userId="+n.userId;
+		        	});
+		        	$.post('<%=basePath%>systemManage/initializeP.action'+ps,function(data){
+			        	$('#userTable').datagrid('reload'); 
+		        		$.messager.alert('提示',data.mes,'info');
+		        	});
+		        }
+	    	});
+		}
+	}
+  
+  
     //表格查询
 	function searchUser(){
 		var params = $('#userTable').datagrid('options').queryParams; //先取得 datagrid 的查询参数
