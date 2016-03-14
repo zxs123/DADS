@@ -3,14 +3,14 @@ package zxs.ssm.po;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FunctionLimitExample {
+public class FunctionlimitExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public FunctionLimitExample() {
+    public FunctionlimitExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

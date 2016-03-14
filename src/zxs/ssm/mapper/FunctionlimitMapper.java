@@ -1,15 +1,12 @@
-package zxs.ssm.services;
+package zxs.ssm.mapper;
 
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
-
 import zxs.ssm.po.Functionlimit;
 import zxs.ssm.po.FunctionlimitExample;
 
-public interface FunctionLimitService {
-
-	int countByExample(FunctionlimitExample example);
+public interface FunctionlimitMapper {
+    int countByExample(FunctionlimitExample example);
 
     int deleteByExample(FunctionlimitExample example);
 
@@ -30,5 +27,4 @@ public interface FunctionLimitService {
     int updateByPrimaryKeySelective(Functionlimit record);
 
     int updateByPrimaryKey(Functionlimit record);
-	
 }

@@ -1,6 +1,6 @@
 package zxs.ssm.po;
 
-public class FunctionLimit {
+public class Functionlimit {
     private Integer flId;
 
     private Integer flRoleid;

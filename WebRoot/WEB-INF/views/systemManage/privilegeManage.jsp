@@ -24,10 +24,61 @@
 <script type="text/javascript"
 	src="../jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="../js/base-loading.js"></script>
-    <script type="text/javascript">
+<script type="text/javascript">
     jQuery(function($){
-		$('#userTable').datagrid({
-			title:'用户列表', //标题
+    	/**
+		 *  保存用户信息方法
+		 */
+		$('#btn1').click(function(){
+				var nodes = $('#tt').tree('getChecked');
+				var s = '';
+				for(var i=0; i<nodes.length; i++){
+					if (s != '') s += ',';
+					s += nodes[i].text;
+				}
+				s = encodeURI(s);
+				if($('#myform').form('validate') && nodes.length>0){
+					$.ajax({
+						type: 'post' ,
+						url: flag=='add'?'<%=basePath%>systemManage/saveRole.action?role='+s:'<%=basePath%>systemManage/updateRole.action' ,
+						cache:false ,
+						data:$('#myform').serialize() ,
+						dataType:'json' ,
+						success:function(result){
+							//1 关闭窗口
+							$('#roleManage').dialog('close');
+							//2刷新datagrid 
+							$('#roleTable').datagrid('reload');
+							//3 提示信息
+							$.messager.show({
+								title:result.status , 
+								msg:result.message
+							});
+						} ,
+						error:function(result){
+							$.meesager.show({
+								title:result.status , 
+								msg:result.message
+							});
+						}
+					});
+				} else {
+					$.messager.show({
+						title:'提示信息!' ,
+						msg:'数据验证不通过,不能保存!'
+					});
+				}
+		});
+		
+		/**
+		 * 关闭窗口方法
+		 */
+		$('#btn2').click(function(){
+			$('#roleManage').dialog('close');
+		});
+    	
+		$('#roleTable').datagrid({
+			title:'角色列表', //标题
 			method:'post',
 			iconCls:'icon-user', //图标
 			singleSelect:false, //多选
@@ -35,41 +86,22 @@
 			fitColumns: true, //自动调整各列，用了这个属性，下面各列的宽度值就只是一个比例。
 			striped: true, //奇偶行颜色不同
 			collapsible:true,//可折叠
-			url:"<%=basePath%>systemManage/queryList.action", //数据来源
-			sortName: 'user.userName', //排序的列
+			url:"<%=basePath%>systemManage/roleList.action", //数据来源
+			sortName: 'srId', //排序的列
 			sortOrder: 'desc', //倒序
 			remoteSort: true, //服务器端排序
-			idField:'userId', //主键字段
+			idField:'srId', //主键字段
 			queryParams:{}, //查询条件
 			pagination:true, //显示分页
 			rownumbers:true, //显示行号
 			columns:[[
 				{field:'ck',checkbox:true,width:2}, //显示复选框
-				{field:'userName',title:'姓名',width:20,sortable:true,
-					formatter:function(value,row,index){return row.userName;} //需要formatter一下才能显示正确的数据
+				{field:'srId',title:'角色编号',width:20,sortable:true,
+					formatter:function(value,row,index){return row.srId;} //需要formatter一下才能显示正确的数据
 				},
-				{field:'userId',title:'登录账号',width:20,sortable:true,
-					formatter:function(value,row,index){return row.userId;}
-				},
-				{field:'depName',title:'所属部门',width:30,sortable:true,
-					formatter:function(value,row,index){
-						return row.depName;  //该列的值是deptId，显示的是deptName
-					}
-				},
-				{field:'srName',title:'用户角色',width:20,sortable:true,
+				{field:'srName',title:'角色名称',width:20,sortable:true,
 					formatter:function(value,row,index){return row.srName;}
-				},
-				{field:'userTel',title:'办公电话',width:30,sortable:true,
-					formatter:function(value,row,index){return row.userTel;}
-				},
-				{field:'userCellphone',title:'手机',width:30,sortable:true,
-					formatter:function(value,row,index){return row.userCellphone;}
-				},
-				{field:'userEmail',title:'电子邮箱',width:30,sortable:true,
-					formatter:function(value,row,index){
-						return row.userEmail;  //该列的值是deptId，显示的是deptName
-					}
-				} 
+				}
 			]],
 			toolbar:[{
 				text:'新增',
@@ -89,159 +121,130 @@
 				handler:function(){
 					deleterow();
 				}
-			},'-',{
-				text:'初始化密码',
-				iconCls:'icon-reset',
-				handler:function(){
-					deleterow();
-				}
 			},'-'],
 			onLoadSuccess:function(){
-				$('#userTable').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
+				$('#roleTable').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题
 			}
 		});
+    });
     	
-		//下拉表格初始化，这个东西在ajax下要尽量少用，太变态了，每加载一次就会重新创建一次，隐藏在页面上，
-		//时间一长效率很低，用firebug一看页面上有几十个同样的层保存着下拉框中的内容，只有整个页面全部刷新才清除。
-		//不知道新版本修正了没有，我目前的做法是点击菜单的时候手动清除一下。
-		$('#deptCombo').combogrid({
-			idField:'depId', //ID字段
-		    textField:'depName', //显示的字段
-		    url:"<%=basePath%>dept/queryAll.action",
-		    fitColumns: true,
-			striped: true,
-			editable:false,//不可编辑，只能选择
-		    columns:[[
-		        {field:'depId',title:'编号',width:100},
-		        {field:'depName',title:'名称',width:150}
-		    ]]
-		});
-
-	});
-    //新增
+  //新增
     function addrow(){
-    	<%--//$('#privilige').window('open');
-    	 showWindow({
-  			title:'增加用户信息',
-  			href:'<%=basePath%>systemManage/getOrgTree.action',
-  			width:300,
-  			height:250,
-  			onLoad: function(){
-  				$('#userForm').form('clear');
-  			}
-  			
-  		});
-  		
-  		 --%>
-  		$('#privilige').dialog({
-  		    title: '权限设置',
-  		    width: 260,
-  		    height: 410,
-  		    closed: false,
-  		    cache: false,
-  		    href: '<%=basePath%>systemManage/getOrgTree.action',
-  		    modal: true
-  		});
-  		$('#privilige').dialog('refresh', '<%=basePath%>systemManage/getOrgTree.action');
+    	flag = 'add';
+		$('#roleManage').dialog({
+				title:'新增角色' 
+		});
+		//$('#myform').find('input[name!=sex]').val("");
+		//$('#myform').get(0).reset();
+		//$('#myform').form('clear');
+		$('#roleManage').dialog('open');
+	}
     
-    }
   //更新
     function updaterow(){
-		<%-- var rows = $('#userTable').datagrid('getSelections');
-		//这里有一个jquery easyui datagrid的一个小bug，必须把主键单独列出来，要不然不能多选
-		if(rows.length==0){
-			$.messager.alert('提示',"请选择你要更新的用户",'info');
-			return;
+    	flag = 'edit';
+		var arr =$('#roleTable').datagrid('getSelections');
+		if(arr.length != 1){
+			$.messager.show({
+				title:'提示信息!',
+				msg:'只能选择一行记录进行修改!'
+			});
+		} else {
+			$('#roleManage').dialog({
+				title:'修改角色'
+			});
+			$('#roleManage').dialog('open'); //打开窗口
+			//$('#myform').get(0).reset();   //清空表单数据 
+			$('#myform').form('load',{	   //调用load方法把所选中的数据load到表单中,非常方便
+				srId:arr[0].srId ,
+				srName:arr[0].srName ,
+			});
 		}
-		if(rows.length > 1){
-			$.messager.alert('提示',"只能选择一位用户进行更新",'info');
-			return;
-		}
-		showWindow({
-  			title:'更新用户信息',
-  			href:'<%=basePath%>user/popWindow.action',
-  			width:300,
-  			height:250,
-  			onLoad: function(){
-  			//自动将数据填充到表单中，无需再查询数据库，这里需要注意：
-  			//如果用的是struts2，它的表单元素的名称都是user.id这样的，那load的时候不能加.user要.form('load', rows[0]);
-  			//而spring mvc中表单元素的名称不带对象前缀，直拉就是id，所以这里load的时候是：.form('load', rows[0].user)
-  				$("#userForm").form('load', rows[0].user);
-  			}
-  		}); --%>
-  		window.open ('<%=basePath%>systemManage/getOrgTree.action','newwindow','height=100,width=400,top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
 	}
   	
   //删除
   	function deleterow(){
-  		$.messager.confirm('提示','确定要删除吗?',function(result){
-	        if (result){
-	        	var rows = $('#userTable').datagrid('getSelections');
-	        	var ps = "";
-	        	$.each(rows,function(i,n){
-	        		if(i==0) 
-	        			ps += "?userId="+n.userId;
-	        		else
-	        			ps += "&userId="+n.userId;
-	        	});
-	        	$.post('<%=basePath%>user/delete.action'+ps,function(data){
-		        	$('#userTable').datagrid('reload'); 
-	        		$.messager.alert('提示',data.mes,'info');
-	        	});
-	        }
-	    });
-  	}
-    //表格查询
-	function searchUser(){
-		var params = $('#userTable').datagrid('options').queryParams; //先取得 datagrid 的查询参数
-		var fields =$('#queryForm').serializeArray(); //自动序列化表单元素为JSON对象
-		$.each( fields, function(i, field){
-			params[field.name] = field.value; //设置查询参数
-		}); 
-		$('#userTable').datagrid('reload'); //设置好查询参数 reload 一下就可以了
+		var rows =$('#roleTable').datagrid('getSelections');
+		if(rows.length == 0){
+			$.messager.show({
+				title:'提示信息!',
+				msg:'至少选择一条记录进行删除!'
+			});
+		} else {
+	  		$.messager.confirm('提示','确定要删除吗?',function(result){
+		        if (result){
+		        	var ps = "";
+		        	$.each(rows,function(i,n){
+		        		if(i==0) 
+		        			ps += "?userId="+n.userId;
+		        		else
+		        			ps += "&userId="+n.userId;
+		        	});
+		        	$.post('<%=basePath%>systemManage/delete.action' + ps,
+							function(data) {
+								$('#roleTable').datagrid('reload');
+								$.messager.alert('提示', data.mes, 'info');
+							});
+				}
+			});
+		}
 	}
-	//清空查询条件
-	function clearForm(){
-		$('#queryForm').form('clear');
-		searchUser();
-	}
-    
-	</script>	
-  </head>
-  
-  <body>
-    <form id="queryForm" style="margin:8;text-align: center;">
-		<table width="100%">
-			<tr>
-			<td>所属部门：<input id="deptCombo" name="userDep" style="width: 300"></td>
-			<td>名字：<input name="userName" style="width: 200"></td>
-			<td>登录账号：<input name="userId" style="width: 200"></td>
-			<td>用户状态：<select name="userRname" style="width: 200">
-					<option value="kongbai"></option>
-   					 <option value=1>已启用</option>
-   					 <option value=0>未启用</option>
-					</select>
-			</td>
-			<td align="center"><a href="#" onclick="searchUser();" class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
-			<td align="center"><a href="#" onclick="clearForm();" class="easyui-linkbutton" iconCls="icon-search">清空</a></td>
-			</tr>
-		</table>
-	</form>
-	<div style="padding:10" id="tabdiv">
-		<table id="userTable"></table>
-	</div>
-	<div id="privilige" class="easyui-window" title="修改权限" data-options="iconCls:'icon-save',closed:'true'" style="width:500px;height:250px;padding:5px;">
-	</div>
-  </body>
-
-<script type="text/javascript">
-  $(function() {
-  //绑定“下一步”按钮的点击事件
-	$("#nextStep").click(function(){
-		parent.update('<%=basePath%>systemManage/getOrgTree.action');
-	});
-  });
 </script>
 
+</head>
+  
+  <body>
+	<div style="padding:10" id="tabdiv">
+		<table id="roleTable"></table>
+	</div>
+	<div id="roleManage" modal=true class="easyui-dialog" title="添加用户" data-options="iconCls:'icon-save',closed:'true'" style="width:260px;height:320px;">
+		<form id="myform" action="" method="post">
+			<h2>CheckBox Tree</h2>
+			<p>Tree nodes with check boxes.</p>
+			<div style="margin:20px 0;">
+				<a href="#" class="easyui-linkbutton" onclick="getChecked()">GetChecked</a> 
+			</div>
+			<div style="margin:10px 0">
+				<input type="checkbox" checked onchange="$('#tt').tree({cascadeCheck:$(this).is(':checked')})">CascadeCheck 
+				<input type="checkbox" onchange="$('#tt').tree({onlyLeafCheck:$(this).is(':checked')})">OnlyLeafCheck
+			</div>
+			<table>
+				<tr>
+					<td align="right">角色名称：</td>
+					<td><input id="srId" type="text" name="srId"
+						value="" /></td>
+				</tr>
+				<tr>
+					<td align="right">角色分类：</td>
+					<td><input id="srName" type="text" name="srName"
+						value="" /></td>
+				</tr>
+				<tr>
+					<td colspan="2"><div class="easyui-panel" style="padding: 5px">
+							<ul id="tt" class="easyui-tree"
+								data-options="url:'<%=basePath%>systemManage/getJson.action',method:'post',animate:true,checkbox:true"></ul>
+						</div></td>
+				</tr>
+				<tr align="center">
+					<td colspan="2"><a id="btn1" class="easyui-linkbutton">确定</a>
+						<a id="btn2" class="easyui-linkbutton">关闭</a></td>
+				</tr>
+			</table>
+			<div><input type="button" onclick="getChecked();" value="测试"></div>
+		</form>
+	</div>
+  </body>
+  
+    <script type="text/javascript">
+		function getChecked(){
+			var nodes = $('#tt').tree('getChecked');
+			var s = '';
+			for(var i=0; i<nodes.length; i++){
+				if (s != '') s += ',';
+				s += nodes[i].text;
+			}
+			alert(s);
+		}
+	</script>
 </html>
 

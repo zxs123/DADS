@@ -97,12 +97,16 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="zxs.ssm.po.Systemrole" >
-    insert into systemrole (SR_Id, SR_name, SR_reid
-      )
-    values (#{srId,jdbcType=INTEGER}, #{srName,jdbcType=VARCHAR}, #{srReid,jdbcType=VARCHAR}
-      )
-  </insert>
+  <insert id="insert" parameterType="zxs.ssm.po.Systemrole">
+	<selectKey keyProperty="srId" resultType="java.lang.Integer">
+		select LAST_INSERT_ID()
+	</selectKey>
+	insert into systemrole (SR_Id, SR_name, SR_reid
+	)
+	values (#{srId,jdbcType=INTEGER}, #{srName,jdbcType=VARCHAR},
+	#{srReid,jdbcType=VARCHAR}
+	)
+</insert>
   <insert id="insertSelective" parameterType="zxs.ssm.po.Systemrole" >
     insert into systemrole
     <trim prefix="(" suffix=")" suffixOverrides="," >

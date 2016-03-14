@@ -28,7 +28,7 @@
    
     jQuery(function($){
 	    /**
-		 *  提交表单方法
+		 *  保存用户信息方法
 		 */
 		$('#btn1').click(function(){
 				if($('#myform').form('validate')){
@@ -70,6 +70,13 @@
 		$('#btn2').click(function(){
 			$('#mydialog').dialog('close');
 		});
+		
+		/**
+		 * 测试
+		 */
+		$('#test').click(function(){
+			location.href='<%=basePath%>user/test.action';
+		});
 
     
 		$('#userTable').datagrid({
@@ -77,11 +84,10 @@
 			method:'post',
 			iconCls:'icon-user', //图标
 			singleSelect:false, //多选
-			//height:360, //高度
 			fitColumns: true, //自动调整各列，用了这个属性，下面各列的宽度值就只是一个比例。
 			striped: true, //奇偶行颜色不同
 			collapsible:true,//可折叠
-			url:"<%=basePath%>systemManage/queryList.action", //数据来源
+			url:"<%=basePath%>systemManage/queryUserList.action", //数据来源
 			sortName: 'user.userName', //排序的列
 			sortOrder: 'desc', //倒序
 			remoteSort: true, //服务器端排序
@@ -191,7 +197,7 @@
 				title:'修改用户'
 			});
 			$('#mydialog').dialog('open'); //打开窗口
-			$('#myform').get(0).reset();   //清空表单数据 
+			//$('#myform').get(0).reset();   //清空表单数据 
 			$('#myform').form('load',{	   //调用load方法把所选中的数据load到表单中,非常方便
 				userId:arr[0].userId ,
 				userName:arr[0].userName ,
@@ -269,23 +275,11 @@
 		}); 
 		$('#userTable').datagrid('reload'); //设置好查询参数 reload 一下就可以了
 	}
+    
 	//清空查询条件
 	function clearForm(){
 		$('#queryForm').form('clear');
 		searchUser();
-	}
-    
-	//js方法：序列化表单 			
-	function serializeForm(form){
-		var obj = {};
-		$.each(form.serializeArray(),function(index){
-			if(obj[this['name']]){
-				obj[this['name']] = obj[this['name']] + ','+this['value'];
-			} else {
-				obj[this['name']] =this['value'];
-			}
-		});
-		return obj;
 	}
 	
 	</script>	
@@ -331,7 +325,7 @@
 				<tr>
 					<td align="right">性别：</td>
 					<td>男<input type="radio" checked="checked" name="userSex"
-						value="1" /> 女<input type="radio" name="userSex" value="1" />
+						value="男" /> 女<input type="radio" name="userSex" value="女" />
 					</td>
 				</tr>
 				<tr>
@@ -368,19 +362,10 @@
 						<a id="btn2" class="easyui-linkbutton">关闭</a></td>
 				</tr>
 			</table>
+			<div id="test"><input type="button" value="测试"/></div>
 		</form>
 	</div>
   </body>
   
-  <script type="text/javascript">
-		function getChecked(){
-			var nodes = $('#tt').tree('getChecked');
-			var s = '';
-			for(var i=0; i<nodes.length; i++){
-				if (s != '') s += ',';
-				s += nodes[i].text;
-			}
-			alert(s);
-		}
-	</script>
+
 </html>

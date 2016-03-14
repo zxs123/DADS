@@ -4,24 +4,24 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import zxs.ssm.mapper.FunctionLimitMapper;
-import zxs.ssm.po.FunctionLimit;
-import zxs.ssm.po.FunctionLimitExample;
+import zxs.ssm.mapper.FunctionlimitMapper;
+import zxs.ssm.po.Functionlimit;
+import zxs.ssm.po.FunctionlimitExample;
 import zxs.ssm.services.FunctionLimitService;
 
 public class FunctionLimitServiceImpl implements FunctionLimitService{
 
 	@Autowired
-	private FunctionLimitMapper flMapper;
+	private FunctionlimitMapper flMapper;
 	
 	@Override
-	public int countByExample(FunctionLimitExample example) {
+	public int countByExample(FunctionlimitExample example) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int deleteByExample(FunctionLimitExample example) {
+	public int deleteByExample(FunctionlimitExample example) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -33,51 +33,49 @@ public class FunctionLimitServiceImpl implements FunctionLimitService{
 	}
 
 	@Override
-	public int insert(FunctionLimit record) {
+	public int insert(Functionlimit record) {
+		return flMapper.insert(record);
+	}
+
+	@Override
+	public int insertSelective(Functionlimit record) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int insertSelective(FunctionLimit record) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List<FunctionLimit> selectByExample(FunctionLimitExample example) {
-		List<FunctionLimit> list = flMapper.selectByExample(example);
+	public List<Functionlimit> selectByExample(FunctionlimitExample example) {
+		List<Functionlimit> list = flMapper.selectByExample(example);
 		return list;
 	}
 
 	@Override
-	public FunctionLimit selectByPrimaryKey(Integer flId) {
+	public Functionlimit selectByPrimaryKey(Integer flId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int updateByExampleSelective(FunctionLimit record, FunctionLimitExample example) {
+	public int updateByExampleSelective(Functionlimit record, FunctionlimitExample example) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int updateByExample(FunctionLimit record, FunctionLimitExample example) {
+	public int updateByExample(Functionlimit record, FunctionlimitExample example) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(FunctionLimit record) {
+	public int updateByPrimaryKeySelective(Functionlimit record) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int updateByPrimaryKey(FunctionLimit record) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateByPrimaryKey(Functionlimit record) {
+		return flMapper.updateByPrimaryKey(record);
 	}
 
 }

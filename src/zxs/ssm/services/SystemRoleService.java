@@ -1,11 +1,14 @@
 package zxs.ssm.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import zxs.ssm.po.Systemrole;
 import zxs.ssm.po.SystemroleExample;
+import zxs.ssm.po.Users;
+import zxs.ssm.util.DataGridModel;
 
 public interface SystemRoleService {
 
@@ -30,5 +33,7 @@ public interface SystemRoleService {
     int updateByPrimaryKeySelective(Systemrole record);
 
     int updateByPrimaryKey(Systemrole record);
+
+	Map<String, Object> getPageList(DataGridModel dgm, Users user);
 	
 }

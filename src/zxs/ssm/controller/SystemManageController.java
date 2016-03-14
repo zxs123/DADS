@@ -24,13 +24,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.et.mvc.JsonView;
 import com.et.mvc.View;
 
-import zxs.ssm.po.FunctionLimit;
-import zxs.ssm.po.FunctionLimitExample;
+import zxs.ssm.po.Functionlimit;
+import zxs.ssm.po.FunctionlimitExample;
 import zxs.ssm.po.FunctionModule;
+import zxs.ssm.po.Systemrole;
 import zxs.ssm.po.Users;
-import zxs.ssm.po.FunctionLimitExample.Criteria;
+import zxs.ssm.po.FunctionlimitExample.Criteria;
 import zxs.ssm.services.FunctionLimitService;
 import zxs.ssm.services.FunctionModuleService;
+import zxs.ssm.services.SystemRoleService;
 import zxs.ssm.services.UsersManageService;
 import zxs.ssm.services.UsersService;
 import zxs.ssm.util.DataGridModel;
@@ -48,8 +50,17 @@ public class SystemManageController {
 	@Autowired
 	private FunctionModuleService fmService;
 	@Autowired
+	private SystemRoleService srService;
+	@Autowired
 	HttpSession session;
 	
+	//用户管理
+	@RequestMapping("/userManage")
+	public String test() throws Exception{
+		return "systemManage/userManage";
+	}
+	
+	//获取用户的信息
 	@RequestMapping("/getUsers")
 	public View getUsers() throws Exception{
 		Map<String,Object> result = new HashMap<String,Object>();
@@ -59,18 +70,22 @@ public class SystemManageController {
 		return new JsonView(result);
 	}
 	
-	@RequestMapping("/userManage")
-	public String test() throws Exception{
-		return "systemManage/userManage";
-	}
-		
 	//查询用户列表
-	@RequestMapping(value="/queryList",method=RequestMethod.POST)
+	@RequestMapping(value="/queryUserList",method=RequestMethod.POST)
 	@ResponseBody         
-	public Map<String, Object> queryList(DataGridModel dgm,Users user) throws Exception{
+	public Map<String, Object> queryUserList(DataGridModel dgm,Users user) throws Exception{
 		//spring太给力了，可以自动装配两个对象  会自动的装返回的Map转换成JSON对象
 	    //return userService.getPageListByExemple(dgm, user); 
 	    return umService.getPageList(dgm, user);
+	}
+	
+	//查询用户列表
+	@RequestMapping(value="/roleList",method=RequestMethod.POST)
+	@ResponseBody         
+	public Map<String, Object> roleList(DataGridModel dgm,Users user) throws Exception{
+		//spring太给力了，可以自动装配两个对象  会自动的装返回的Map转换成JSON对象
+		//return userService.getPageListByExemple(dgm, user); 
+		return srService.getPageList(dgm, user);
 	}
 	
 	//新增用户
@@ -96,13 +111,13 @@ public class SystemManageController {
 			Users user = (Users) session.getAttribute("baseUser");
 			System.out.println(user);
 			int position = user.getUserPosition();  //获取用户角色
-			FunctionLimitExample flExample = new FunctionLimitExample();
+			FunctionlimitExample flExample = new FunctionlimitExample();
 			Criteria criteria = flExample.createCriteria();
 			criteria.andFlRoleidEqualTo(position);			
-			List<FunctionLimit> flList2 = flService.selectByExample(flExample);   //通过角色查询权限
+			List<Functionlimit> flList2 = flService.selectByExample(flExample);   //通过角色查询权限
 			List<FunctionModule> fmList2 = new ArrayList<FunctionModule>();
-			for(Iterator<FunctionLimit> iterator = flList2.iterator();iterator.hasNext();){  
-				FunctionLimit fl = iterator.next();
+			for(Iterator<Functionlimit> iterator = flList2.iterator();iterator.hasNext();){  
+				Functionlimit fl = iterator.next();
 				FunctionModule fm = fmService.selectByPrimaryKey(fl.getFlFmid());
 				fmList2.add(fm);
 	        }
@@ -116,19 +131,22 @@ public class SystemManageController {
 	//2016-3-2返回json数据
 	@ResponseBody  
 	@RequestMapping(value="/getJson",method=RequestMethod.POST)
-	public String  getJson() throws Exception{
-
+	public String  getJson(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		String flag = request.getParameter("flag");
+		System.out.println("aaaaaaaaaaaaaaaaaaaa"+flag);
+		
 		//获取系统所有功能权限，保存到fmList中
         List<FunctionModule> fmList = fmService.selectByExample(null);		
         Users user = (Users) session.getAttribute("baseUser");
 		int position = user.getUserPosition();  //获取用户角色
-		FunctionLimitExample flExample = new FunctionLimitExample();
+		FunctionlimitExample flExample = new FunctionlimitExample();
 		Criteria criteria = flExample.createCriteria();
 		criteria.andFlRoleidEqualTo(position);
-		List<FunctionLimit> flList2 = flService.selectByExample(flExample);   //通过角色查询权限
+		List<Functionlimit> flList2 = flService.selectByExample(flExample);   //通过角色查询权限
 		List<FunctionModule> fmList2 = new ArrayList<FunctionModule>();//将该角色的功能权限保存在fmList2中
-		for(Iterator<FunctionLimit> iterator = flList2.iterator();iterator.hasNext();){  
-			FunctionLimit fl = iterator.next();
+		for(Iterator<Functionlimit> iterator = flList2.iterator();iterator.hasNext();){  
+			Functionlimit fl = iterator.next();
 			FunctionModule fm = fmService.selectByPrimaryKey(fl.getFlFmid());
 			fmList2.add(fm);
         }
@@ -149,10 +167,12 @@ public class SystemManageController {
 							if(fm2.getFmCategory()==fm1.getFmId()||fm2.getFmCategory().equals(fm1.getFmId())){
 								Map<String,Object> result2 = new HashMap<String,Object>();
 								result2.put("text", fm2.getFmName());
-								for(int m=0;m<fmList2.size();m++){
-									FunctionModule fm3 = fmList2.get(m);
-									if(fm3.getFmId().equals(fm2.getFmId())||fm3.getFmId()==fm2.getFmId()){
-										result2.put("checked", "ture");//以后包含该权限
+								if("add".equals(flag)){
+									for(int m=0;m<fmList2.size();m++){
+										FunctionModule fm3 = fmList2.get(m);
+										if(fm3.getFmId().equals(fm2.getFmId())||fm3.getFmId()==fm2.getFmId()){
+											result2.put("checked", "ture");//以后包含该权限
+										}
 									}
 								}
 								list.add(result2);
@@ -206,6 +226,53 @@ public class SystemManageController {
 			user.setUserEmail(userEmail);
 			user.setUserIdcard(userIdcard);
 			usersService.insert(user);
+			response.setContentType("text/html;charset=utf-8");
+			//{"status":"ok" , "message":"操作成功"}
+			String str = "{\"status\":\"ok\" , \"message\":\"操作成功!\"}";
+			response.getWriter().write(str);
+		} catch (Exception e) {
+			response.setContentType("text/html;charset=utf-8");
+			//{"status":"fail" , "message":"操作失败!"}
+			String str = "{\"status\":\"fail\" , \"message\":\"操作失败!\"}";
+			try {
+				response.getWriter().write(str);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+	}
+	
+	
+	//2016-3-14添加角色
+	@ResponseBody  
+	@RequestMapping(value="/saveRole",method=RequestMethod.POST)
+	private void saveRole(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			String srName = request.getParameter("srId");
+			String srReid = request.getParameter("srName");
+			String s = request.getParameter("role");
+			s = new String(s.getBytes("ISO-8859-1"),"UTF-8");
+			String[] sss = s.split(",");
+			System.out.println(s);
+			Systemrole sr = new Systemrole();
+			sr.setSrName(srName);
+			sr.setSrReid("1");
+			srService.insert(sr);
+			int srId= sr.getSrId();
+			List<FunctionModule> fmList = fmService.selectByExample(null);
+			for(int i = 0;i<fmList.size();i++){
+				for(int j=0;j<sss.length;j++){
+					if(sss[j].equals(fmList.get(i).getFmName())||sss[j]==fmList.get(i).getFmName()){
+						Functionlimit fl = new Functionlimit();
+						fl.setFlFmid(fmList.get(i).getFmId());
+						fl.setFlRoleid(srId);
+						flService.insert(fl);
+					}
+				}
+			}
+			
+			//usersService.insert(user);
 			response.setContentType("text/html;charset=utf-8");
 			//{"status":"ok" , "message":"操作成功"}
 			String str = "{\"status\":\"ok\" , \"message\":\"操作成功!\"}";

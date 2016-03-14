@@ -6,8 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import zxs.ssm.po.FunctionLimit;
-import zxs.ssm.po.FunctionLimitExample;
-import zxs.ssm.po.FunctionLimitExample.Criteria;
+
 import zxs.ssm.po.FunctionModule;
+import zxs.ssm.po.Functionlimit;
+import zxs.ssm.po.FunctionlimitExample;
+import zxs.ssm.po.FunctionlimitExample.Criteria;
 import zxs.ssm.po.Users;
 import zxs.ssm.services.DepartmentService;
 import zxs.ssm.services.FunctionLimitService;
@@ -73,13 +76,13 @@ public class UsersController {
 			Users user = (Users) session.getAttribute("baseUser");
 			System.out.println(user);
 			int position = user.getUserPosition();  //获取用户角色
-			FunctionLimitExample flExample = new FunctionLimitExample();
+			FunctionlimitExample flExample = new FunctionlimitExample();
 			Criteria criteria = flExample.createCriteria();
 			criteria.andFlRoleidEqualTo(position);			
-			List<FunctionLimit> flList = flService.selectByExample(flExample);   //通过角色查询权限
+			List<Functionlimit> flList = flService.selectByExample(flExample);   //通过角色查询权限
 			List<FunctionModule> fmList = new ArrayList<FunctionModule>();
-			for(Iterator<FunctionLimit> iterator = flList.iterator();iterator.hasNext();){  
-				FunctionLimit fl = iterator.next();
+			for(Iterator<Functionlimit> iterator = flList.iterator();iterator.hasNext();){  
+				Functionlimit fl = iterator.next();
 				FunctionModule fm = fmService.selectByPrimaryKey(fl.getFlFmid());
 				fmList.add(fm);
 	        }

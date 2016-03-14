@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="zxs.ssm.mapper.FunctionLimitMapper" >
-  <resultMap id="BaseResultMap" type="zxs.ssm.po.FunctionLimit" >
+<mapper namespace="zxs.ssm.mapper.FunctionlimitMapper" >
+  <resultMap id="BaseResultMap" type="zxs.ssm.po.Functionlimit" >
     <id column="FL_Id" property="flId" jdbcType="INTEGER" />
     <result column="FL_roleid" property="flRoleid" jdbcType="INTEGER" />
     <result column="FL_fmid" property="flFmid" jdbcType="INTEGER" />
@@ -67,13 +67,13 @@
   <sql id="Base_Column_List" >
     FL_Id, FL_roleid, FL_fmid
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="zxs.ssm.po.FunctionLimitExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="zxs.ssm.po.FunctionlimitExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from FunctionLimit
+    from functionlimit
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -84,27 +84,27 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from FunctionLimit
+    from functionlimit
     where FL_Id = #{flId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from FunctionLimit
+    delete from functionlimit
     where FL_Id = #{flId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="zxs.ssm.po.FunctionLimitExample" >
-    delete from FunctionLimit
+  <delete id="deleteByExample" parameterType="zxs.ssm.po.FunctionlimitExample" >
+    delete from functionlimit
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="zxs.ssm.po.FunctionLimit" >
-    insert into FunctionLimit (FL_Id, FL_roleid, FL_fmid
+  <insert id="insert" parameterType="zxs.ssm.po.Functionlimit" >
+    insert into functionlimit (FL_Id, FL_roleid, FL_fmid
       )
     values (#{flId,jdbcType=INTEGER}, #{flRoleid,jdbcType=INTEGER}, #{flFmid,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="zxs.ssm.po.FunctionLimit" >
-    insert into FunctionLimit
+  <insert id="insertSelective" parameterType="zxs.ssm.po.Functionlimit" >
+    insert into functionlimit
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="flId != null" >
         FL_Id,
@@ -128,14 +128,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="zxs.ssm.po.FunctionLimitExample" resultType="java.lang.Integer" >
-    select count(*) from FunctionLimit
+  <select id="countByExample" parameterType="zxs.ssm.po.FunctionlimitExample" resultType="java.lang.Integer" >
+    select count(*) from functionlimit
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update FunctionLimit
+    update functionlimit
     <set >
       <if test="record.flId != null" >
         FL_Id = #{record.flId,jdbcType=INTEGER},
@@ -152,7 +152,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update FunctionLimit
+    update functionlimit
     set FL_Id = #{record.flId,jdbcType=INTEGER},
       FL_roleid = #{record.flRoleid,jdbcType=INTEGER},
       FL_fmid = #{record.flFmid,jdbcType=INTEGER}
@@ -160,8 +160,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="zxs.ssm.po.FunctionLimit" >
-    update FunctionLimit
+  <update id="updateByPrimaryKeySelective" parameterType="zxs.ssm.po.Functionlimit" >
+    update functionlimit
     <set >
       <if test="flRoleid != null" >
         FL_roleid = #{flRoleid,jdbcType=INTEGER},
@@ -172,8 +172,8 @@
     </set>
     where FL_Id = #{flId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="zxs.ssm.po.FunctionLimit" >
-    update FunctionLimit
+  <update id="updateByPrimaryKey" parameterType="zxs.ssm.po.Functionlimit" >
+    update functionlimit
     set FL_roleid = #{flRoleid,jdbcType=INTEGER},
       FL_fmid = #{flFmid,jdbcType=INTEGER}
     where FL_Id = #{flId,jdbcType=INTEGER}
